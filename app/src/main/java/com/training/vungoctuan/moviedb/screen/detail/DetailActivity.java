@@ -10,7 +10,7 @@ import com.training.vungoctuan.moviedb.screen.BaseActivity;
 /**
  * Created by vungoctuan on 3/1/18.
  */
-public class DetailActivity extends BaseActivity{
+public class DetailActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

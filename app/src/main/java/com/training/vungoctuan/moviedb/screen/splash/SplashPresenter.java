@@ -3,7 +3,7 @@ package com.training.vungoctuan.moviedb.screen.splash;
 /**
  * Created by vungoctuan on 2/28/18.
  */
-public class SplashPresenter implements SplashContract.Presenter{
+public class SplashPresenter implements SplashContract.Presenter {
     private SplashContract.View mView;
 
     @Override
