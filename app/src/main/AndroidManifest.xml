@@ -22,13 +22,16 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".screen.detail.DetailActivity"
-            android:theme="@style/AppTheme"
             android:label=""
-            android:parentActivityName=".screen.home.HomeActivity">
+            android:parentActivityName=".screen.home.HomeActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.training.vungoctuan.moviedb.screen.home.HomeActivity" />
+                android:value="com.training.vungoctuan.moviedb.screen.home.HomeActivity"/>
         </activity>
+        <activity
+            android:name=".screen.movies.MoviesActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
