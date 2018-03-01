@@ -6,11 +6,9 @@ import com.training.vungoctuan.moviedb.screen.BasePresenter;
  * Created by vungoctuan on 2/28/18.
  */
 public interface SplashContract {
-    interface View{
-
+    interface View {
     }
 
-    interface Presenter extends BasePresenter<View>{
-
+    interface Presenter extends BasePresenter<View> {
     }
 }

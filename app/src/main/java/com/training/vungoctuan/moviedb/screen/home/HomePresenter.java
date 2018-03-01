@@ -3,7 +3,7 @@ package com.training.vungoctuan.moviedb.screen.home;
 /**
  * Created by vungoctuan on 2/28/18.
  */
-public class HomePresenter implements HomeContract.Presenter{
+public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View mView;
 
     @Override
@@ -21,6 +21,5 @@ public class HomePresenter implements HomeContract.Presenter{
 
     @Override
     public void loadPopularMovies() {
-
     }
 }
