@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">MovieDb</string>
+    <string name="app_name">MovieDB</string>
     <string name="text_splash_bottom">Framgia Inc.</string>
+    <string name="title_app">Framgia</string>
+    <string name="title_popular">Most Popular Movies</string>
+    <string name="title_now_playing">Now Playing</string>
 </resources>
