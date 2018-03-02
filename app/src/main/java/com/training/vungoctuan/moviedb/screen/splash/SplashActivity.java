@@ -9,7 +9,7 @@ import com.training.vungoctuan.moviedb.screen.BaseActivity;
 /**
  * Created by vungoctuan on 2/28/18.
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity implements SplashContract.View {
     private SplashContract.Presenter mPresenter;
 
     @Override
@@ -17,5 +17,6 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mPresenter = new SplashPresenter();
+        mPresenter.setView(this);
     }
 }

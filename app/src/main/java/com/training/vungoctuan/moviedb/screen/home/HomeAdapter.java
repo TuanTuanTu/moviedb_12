@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.screen.BaseRecyclerViewAdapter;
-import com.training.vungoctuan.moviedb.screen.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.model.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +63,8 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
 
         public void setData(Movie movie) {
             if (movie == null) return;
-            mTextName.setText(movie.getName());
-            mTextRate.setText(movie.getRate());
+            mTextName.setText(movie.getTitle());
+            mTextRate.setText(movie.getVoteAverage());
         }
     }
 }

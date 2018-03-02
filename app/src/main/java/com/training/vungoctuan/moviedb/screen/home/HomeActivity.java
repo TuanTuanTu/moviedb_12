@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.training.vungoctuan.moviedb.R;
+import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
-import com.training.vungoctuan.moviedb.screen.data.model.Movie;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class HomeActivity extends BaseActivity implements HomeContract.View {
     private HomeContract.Presenter mPresenter;
-    private HomeAdapter mHomeAdapter;
+    private HomeAdapter mPopularMoviesAdapter, mNowPlayingMoviesAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,18 +25,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setContentView(R.layout.activity_home);
         mPresenter = new HomePresenter();
         mPresenter.setView(this);
-        mHomeAdapter = new HomeAdapter(this);
+        mPopularMoviesAdapter = new HomeAdapter(this);
+        mNowPlayingMoviesAdapter = new HomeAdapter(this);
         initLayoutPopular();
         initLayoutNowPlaying();
-        mPresenter.loadPopularMovies();
-    }
-
-    private void initLayoutNowPlaying() {
-        View include = findViewById(R.id.include_now_playing);
-        TextView textView = include.findViewById(R.id.text_recycler_title);
-        textView.setText(R.string.title_now_playing);
-        RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
-        recyclerView.setAdapter(mHomeAdapter);
+        loadMovies();
     }
 
     private void initLayoutPopular() {
@@ -44,11 +37,29 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_popular);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
-        recyclerView.setAdapter(mHomeAdapter);
+        recyclerView.setAdapter(mPopularMoviesAdapter);
+    }
+
+    private void initLayoutNowPlaying() {
+        View include = findViewById(R.id.include_now_playing);
+        TextView textView = include.findViewById(R.id.text_recycler_title);
+        textView.setText(R.string.title_now_playing);
+        RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
+        recyclerView.setAdapter(mNowPlayingMoviesAdapter);
+    }
+
+    private void loadMovies() {
+        mPresenter.loadPopularMovies();
+        mPresenter.loadNowPlayingMovies();
     }
 
     @Override
-    public void onGetMoviesSuccess(List<Movie> movies) {
-        mHomeAdapter.updateData(movies);
+    public void onGetPopularMoviesSuccess(List<Movie> movies) {
+        mPopularMoviesAdapter.updateData(movies);
+    }
+
+    @Override
+    public void onGetNowPlayingMoviesSuccess(List<Movie> movies) {
+        mNowPlayingMoviesAdapter.updateData(movies);
     }
 }

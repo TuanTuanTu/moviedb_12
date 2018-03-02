@@ -2,6 +2,7 @@
 <manifest package="com.training.vungoctuan.moviedb"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -33,5 +34,4 @@
             android:name=".screen.movies.MoviesActivity"
             android:theme="@style/AppTheme"/>
     </application>
-
 </manifest>
