@@ -19,25 +19,13 @@ public class MovieRemoteDataSource implements MovieDataSource.RemoteDataSource {
     }
 
     @Override
-    public void getPopularMovies(String language, String page,
-                                 MovieDataSource.LoadMoviesCallback callback) {
+    public void getMoviesByCategories(String categories, String language, String page,
+                                      MovieDataSource.LoadMoviesCallback callback) {
         new FetchDataFromUrl(callback)
             .execute(
                 String.format(
                     Constant.API_URL_REQUEST,
-                    Constant.API_URL_MOVIE_POPULAR,
-                    language,
-                    page));
-    }
-
-    @Override
-    public void getNowPlayingMovies(String language, String page,
-                                    MovieDataSource.LoadMoviesCallback callback) {
-        new FetchDataFromUrl(callback)
-            .execute(
-                String.format(
-                    Constant.API_URL_REQUEST,
-                    Constant.API_URL_MOVIE_NOW_PLAYING,
+                    categories,
                     language,
                     page));
     }

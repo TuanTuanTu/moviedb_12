@@ -14,20 +14,21 @@ public class MovieRepository implements MovieDataSource.RemoteDataSource {
         mMovieRemoteDataSource = movieRemoteDataSource;
     }
 
-    public static MovieRepository getInstance(MovieRemoteDataSource movieRemoteDataSource) {
-        if (sInstance == null) sInstance = new MovieRepository(movieRemoteDataSource);
+    public static MovieRepository getInstance(
+        MovieRemoteDataSource movieRemoteDataSource) {
+        if (sInstance == null)
+            sInstance = new MovieRepository(movieRemoteDataSource);
         return sInstance;
     }
 
     @Override
-    public void getPopularMovies(String language, String page, MovieDataSource.LoadMoviesCallback
-        callback) {
-        mMovieRemoteDataSource.getPopularMovies(language,page,callback);
-    }
-
-    @Override
-    public void getNowPlayingMovies(String language, String page, MovieDataSource.LoadMoviesCallback
-        callback) {
-        mMovieRemoteDataSource.getNowPlayingMovies(language,page,callback);
+    public void getMoviesByCategories(String categories, String language,
+                                      String page,
+                                      MovieDataSource.LoadMoviesCallback callback) {
+        mMovieRemoteDataSource.getMoviesByCategories(
+            categories,
+            language,
+            page,
+            callback);
     }
 }

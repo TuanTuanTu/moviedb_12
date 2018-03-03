@@ -34,5 +34,29 @@
             android:layout_marginTop="@dimen/include_margin_top"
             app:layout_constraintTop_toBottomOf="@+id/include_popular"/>
 
+        <include
+            android:id="@+id/include_upcoming"
+            layout="@layout/recycler_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintTop_toBottomOf="@+id/include_now_playing"/>
+
+        <include
+            android:id="@+id/include_top_rate"
+            layout="@layout/recycler_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintTop_toBottomOf="@+id/include_upcoming"/>
+
+        <include
+            android:id="@+id/include_genres"
+            layout="@layout/recycler_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintTop_toBottomOf="@+id/include_top_rate"/>
+
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.NestedScrollView>

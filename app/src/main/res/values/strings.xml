@@ -13,5 +13,8 @@
     <string name="text_detail_actor">Actors</string>
     <string name="text_detail_genres">Genres</string>
     <string name="action_trailer">Trailer</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_top_rate">Top Rate</string>
+    <string name="title_genres">Genres</string>
 
 </resources>

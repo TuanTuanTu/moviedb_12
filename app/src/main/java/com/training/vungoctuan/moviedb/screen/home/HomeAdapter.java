@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.screen.BaseRecyclerViewAdapter;
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.util.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +67,9 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
             if (movie == null) return;
             mTextName.setText(movie.getTitle());
             mTextRate.setText(movie.getVoteAverage());
+            Glide.with(itemView.getContext())
+                .load(String.format(Constant.API_IMAGE_URL,movie.getPosterPath()))
+                .into(mImageMovie);
         }
     }
 }

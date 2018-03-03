@@ -17,7 +17,8 @@ import java.util.List;
  */
 public class HomeActivity extends BaseActivity implements HomeContract.View {
     private HomeContract.Presenter mPresenter;
-    private HomeAdapter mPopularMoviesAdapter, mNowPlayingMoviesAdapter;
+    private HomeAdapter mPopularMoviesAdapter, mNowPlayingMoviesAdapter,
+        mUpcomingMoviesAdapter, mTopRateMoviesAdapter, mGenresMoviesAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,11 +26,21 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setContentView(R.layout.activity_home);
         mPresenter = new HomePresenter();
         mPresenter.setView(this);
-        mPopularMoviesAdapter = new HomeAdapter(this);
-        mNowPlayingMoviesAdapter = new HomeAdapter(this);
+        initMoviesAdapters();
         initLayoutPopular();
         initLayoutNowPlaying();
+        initLayoutUpcoming();
+        initLayoutTopRate();
+        initLayoutGenres();
         loadMovies();
+    }
+
+    private void initMoviesAdapters() {
+        mPopularMoviesAdapter = new HomeAdapter(this);
+        mNowPlayingMoviesAdapter = new HomeAdapter(this);
+        mUpcomingMoviesAdapter = new HomeAdapter(this);
+        mTopRateMoviesAdapter = new HomeAdapter(this);
+        mGenresMoviesAdapter = new HomeAdapter(this);
     }
 
     private void initLayoutPopular() {
@@ -48,9 +59,35 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         recyclerView.setAdapter(mNowPlayingMoviesAdapter);
     }
 
+    private void initLayoutUpcoming() {
+        View include = findViewById(R.id.include_upcoming);
+        TextView textView = include.findViewById(R.id.text_recycler_title);
+        textView.setText(R.string.title_upcoming);
+        RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
+        recyclerView.setAdapter(mUpcomingMoviesAdapter);
+    }
+
+    private void initLayoutTopRate() {
+        View include = findViewById(R.id.include_top_rate);
+        TextView textView = include.findViewById(R.id.text_recycler_title);
+        textView.setText(R.string.title_top_rate);
+        RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
+        recyclerView.setAdapter(mTopRateMoviesAdapter);
+    }
+
+    private void initLayoutGenres() {
+        View include = findViewById(R.id.include_genres);
+        TextView textView = include.findViewById(R.id.text_recycler_title);
+        textView.setText(R.string.title_genres);
+        RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
+        recyclerView.setAdapter(mGenresMoviesAdapter);
+    }
+
     private void loadMovies() {
         mPresenter.loadPopularMovies();
         mPresenter.loadNowPlayingMovies();
+        mPresenter.loadUpcomingMovies();
+        mPresenter.loadTopRateMovies();
     }
 
     @Override
@@ -61,5 +98,20 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void onGetNowPlayingMoviesSuccess(List<Movie> movies) {
         mNowPlayingMoviesAdapter.updateData(movies);
+    }
+
+    @Override
+    public void onGetUpcomingMoviesSuccess(List<Movie> movies) {
+        mUpcomingMoviesAdapter.updateData(movies);
+    }
+
+    @Override
+    public void onGetTopRateMoviesSuccess(List<Movie> movies) {
+        mTopRateMoviesAdapter.updateData(movies);
+    }
+
+    @Override
+    public void onGetGenresMoviesSuccess(List<Movie> movies) {
+        mGenresMoviesAdapter.updateData(movies);
     }
 }

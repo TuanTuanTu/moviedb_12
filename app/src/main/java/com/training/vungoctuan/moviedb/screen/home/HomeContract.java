@@ -12,10 +12,16 @@ public class HomeContract {
     public interface View {
         void onGetPopularMoviesSuccess(List<Movie> movies);
         void onGetNowPlayingMoviesSuccess(List<Movie> movies);
+        void onGetUpcomingMoviesSuccess(List<Movie> movies);
+        void onGetTopRateMoviesSuccess(List<Movie> movies);
+        void onGetGenresMoviesSuccess(List<Movie> movies);
     }
 
     public interface Presenter extends BasePresenter<View> {
         void loadPopularMovies();
         void loadNowPlayingMovies();
+        void loadUpcomingMovies();
+        void loadTopRateMovies();
+        void loadGenresMovies();
     }
 }
