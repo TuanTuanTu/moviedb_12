@@ -1,5 +1,9 @@
 package com.training.vungoctuan.moviedb.screen.splash;
 
+import com.training.vungoctuan.moviedb.data.model.Movie;
+
+import java.util.List;
+
 /**
  * Created by vungoctuan on 2/28/18.
  */
@@ -13,9 +17,14 @@ public class SplashPresenter implements SplashContract.Presenter {
 
     @Override
     public void onStart() {
+
     }
 
     @Override
     public void onStop() {
+    }
+
+    @Override
+    public void loadPopularMovies(List<Movie> movies) {
     }
 }

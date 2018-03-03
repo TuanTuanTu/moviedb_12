@@ -1,7 +1,7 @@
 package com.training.vungoctuan.moviedb.screen.home;
 
+import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BasePresenter;
-import com.training.vungoctuan.moviedb.screen.data.model.Movie;
 
 import java.util.List;
 
@@ -10,10 +10,12 @@ import java.util.List;
  */
 public class HomeContract {
     public interface View {
-        void onGetMoviesSuccess(List<Movie> movies);
+        void onGetPopularMoviesSuccess(List<Movie> movies);
+        void onGetNowPlayingMoviesSuccess(List<Movie> movies);
     }
 
     public interface Presenter extends BasePresenter<View> {
         void loadPopularMovies();
+        void loadNowPlayingMovies();
     }
 }
