@@ -9,7 +9,7 @@
     <dimen name="text_card_padding">20dp</dimen>
     <dimen name="card_width">110dp</dimen>
     <dimen name="card_height">150dp</dimen>
-    <dimen name="card_name_height">40dp</dimen>
+    <dimen name="card_name_height">45dp</dimen>
     <dimen name="card_padding">5dp</dimen>
     <dimen name="include_margin_top">20dp</dimen>
     <dimen name="image_detail_trailer_height">250dp</dimen>
