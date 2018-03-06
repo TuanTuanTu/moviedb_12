@@ -29,33 +29,37 @@
         <include
             android:id="@+id/include_now_playing"
             layout="@layout/recycler_movie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintLeft_toLeftOf="@id/include_popular"
             app:layout_constraintTop_toBottomOf="@+id/include_popular"/>
 
         <include
             android:id="@+id/include_upcoming"
             layout="@layout/recycler_movie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintLeft_toLeftOf="@id/include_popular"
             app:layout_constraintTop_toBottomOf="@+id/include_now_playing"/>
 
         <include
             android:id="@+id/include_top_rate"
             layout="@layout/recycler_movie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintLeft_toLeftOf="@id/include_popular"
             app:layout_constraintTop_toBottomOf="@+id/include_upcoming"/>
 
         <include
             android:id="@+id/include_genres"
             layout="@layout/recycler_movie"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/include_margin_top"
+            app:layout_constraintLeft_toLeftOf="@id/include_popular"
             app:layout_constraintTop_toBottomOf="@+id/include_top_rate"/>
 
     </android.support.constraint.ConstraintLayout>

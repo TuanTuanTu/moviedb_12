@@ -1,6 +1,10 @@
 package com.training.vungoctuan.moviedb.util;
 
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.model.Production;
+import com.training.vungoctuan.moviedb.data.model.credit.Cast;
+import com.training.vungoctuan.moviedb.data.model.credit.Credit;
+import com.training.vungoctuan.moviedb.data.model.credit.Crew;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +27,7 @@ class RequestAPIUtils {
         HttpsURLConnection urlConnection;
         URL url = new URL(urlString);
         urlConnection = (HttpsURLConnection) url.openConnection();
-        urlConnection.setRequestMethod(Constant.API_REQUEST_METHOD);
+        urlConnection.setRequestMethod(Constant.ApiRequestUrl.API_REQUEST_METHOD);
         urlConnection.setReadTimeout(Constant.URL_REQUEST_TIMEOUT);
         urlConnection.setConnectTimeout(Constant.URL_CONNECT_TIMEOUT);
         urlConnection.setDoOutput(true);
@@ -43,17 +47,99 @@ class RequestAPIUtils {
     static List<Movie> parseJsonToMovies(String json) throws JSONException {
         List<Movie> movies = new ArrayList<>();
         JSONObject jsonObject = new JSONObject(json);
-        JSONArray movieJsonArray = jsonObject.getJSONArray(Constant.API_KEY_RESULTS);
+        JSONArray movieJsonArray = jsonObject.getJSONArray(
+            Constant.ApiResultKey.API_KEY_RESULTS);
         for (int i = 0; i < movieJsonArray.length(); i++) {
             Movie movie = new Movie();
+            movie.setId(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_ID));
             movie.setTitle(movieJsonArray.getJSONObject(i)
-                .getString(Constant.API_MOVIE_KEY_TITLE));
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_TITLE));
             movie.setPosterPath(movieJsonArray.getJSONObject(i)
-                .getString(Constant.API_MOVIE_KEY_POSTER_PATH));
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_POSTER_PATH));
             movie.setVoteAverage(movieJsonArray.getJSONObject(i)
-                .getString(Constant.API_MOVIE_KEY_VOTE_AVERAGE));
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_VOTE_AVERAGE));
+            movie.setBackdropPath(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_BACKDROP_PATH));
+            movie.setOverview(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_OVERVIEW));
+            movie.setReleaseDate(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_MOVIE_KEY_RELEASE_DATE));
             movies.add(movie);
         }
         return movies;
+    }
+
+    static List<Production> parseJsonToProductions(String json)
+        throws JSONException {
+        List<Production> productions = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray productionJsonArray = jsonObject.getJSONArray(
+            Constant.ApiResultKey.API_KEY_PRODUCTION_RESULTS);
+        for (int i = 0; i < productionJsonArray.length(); i++) {
+            Production production = new Production();
+            production.setId(productionJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_PRODUCTION_KEY_ID));
+            production.setName(productionJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_PRODUCTION_KEY_NAME));
+            productions.add(production);
+        }
+        return productions;
+    }
+
+    static Credit parseJsonToCredit(String json) throws JSONException {
+        Credit credit = new Credit();
+        List<Cast> casts = new ArrayList<>();
+        List<Crew> crews = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(json);
+        credit.setId(jsonObject.getString(
+            Constant.ApiResultKey.API_CREDIT_KEY_ID));
+        getCastFromCredit(casts, jsonObject);
+        getCrewFromCredit(crews, jsonObject);
+        credit.setCasts(casts);
+        credit.setCrews(crews);
+        return credit;
+    }
+
+    private static void getCrewFromCredit(List<Crew> crews, JSONObject jsonObject)
+        throws JSONException {
+        JSONArray crewJsonArray = jsonObject.getJSONArray(
+            Constant.ApiResultKey.API_KEY_CREDIT_CREW);
+        for (int i = 0; i < crewJsonArray.length(); i++) {
+            Crew crew = new Crew();
+            crew.setId(crewJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREDIT_KEY_ID));
+            crew.setCreditId(crewJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREW_CREDIT_ID));
+            crew.setDepartment(crewJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREW_DEPARTMENT));
+            crew.setName(crewJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREW_NAME));
+            crew.setJob(crewJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREW_JOB));
+            crew.setProfilePath(crewJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREW_KEY_PROFILE_PATH));
+            crews.add(crew);
+        }
+    }
+
+    private static void getCastFromCredit(List<Cast> casts, JSONObject jsonObject)
+        throws JSONException {
+        JSONArray castJsonArray = jsonObject.getJSONArray(
+            Constant.ApiResultKey.API_KEY_CREDIT_CAST);
+        for (int i = 0; i < castJsonArray.length(); i++) {
+            Cast cast = new Cast();
+            cast.setId(castJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREDIT_KEY_ID));
+            cast.setCastId(castJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CREDIT_KEY_CAST_ID));
+            cast.setCharacter(castJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CAST_KEY_CHARACTER));
+            cast.setProfilePath(castJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CAST_KEY_PROFILE_PATH));
+            cast.setName(castJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_CAST_KEY_NAME));
+            casts.add(cast);
+        }
     }
 }
