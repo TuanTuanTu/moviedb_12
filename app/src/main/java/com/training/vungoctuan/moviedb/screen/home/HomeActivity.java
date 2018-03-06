@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
+import com.training.vungoctuan.moviedb.screen.detail.DetailActivity;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private HomeContract.Presenter mPresenter;
     private HomeAdapter mPopularMoviesAdapter, mNowPlayingMoviesAdapter,
         mUpcomingMoviesAdapter, mTopRateMoviesAdapter, mGenresMoviesAdapter;
+    private ProgressBar mProgressBarPopular, mProgressBarNowPlaying,
+        mProgressBarUpcoming, mProgressBarTopRate, mProgressBarGenres;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,17 +40,26 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void initMoviesAdapters() {
-        mPopularMoviesAdapter = new HomeAdapter(this);
-        mNowPlayingMoviesAdapter = new HomeAdapter(this);
-        mUpcomingMoviesAdapter = new HomeAdapter(this);
-        mTopRateMoviesAdapter = new HomeAdapter(this);
-        mGenresMoviesAdapter = new HomeAdapter(this);
+        HomeContract.LoadAdapterDataCallback callback =
+            new HomeContract.LoadAdapterDataCallback() {
+                @Override
+                public void onItemClick(final Movie movie) {
+                    startActivity(
+                        DetailActivity.getInstance(getApplicationContext(), movie));
+                }
+            };
+        mPopularMoviesAdapter = new HomeAdapter(this, callback);
+        mNowPlayingMoviesAdapter = new HomeAdapter(this, callback);
+        mUpcomingMoviesAdapter = new HomeAdapter(this, callback);
+        mTopRateMoviesAdapter = new HomeAdapter(this, callback);
+        mGenresMoviesAdapter = new HomeAdapter(this, callback);
     }
 
     private void initLayoutPopular() {
         View include = findViewById(R.id.include_popular);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_popular);
+        mProgressBarPopular = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mPopularMoviesAdapter);
     }
@@ -55,6 +68,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         View include = findViewById(R.id.include_now_playing);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_now_playing);
+        mProgressBarNowPlaying = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mNowPlayingMoviesAdapter);
     }
@@ -63,6 +77,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         View include = findViewById(R.id.include_upcoming);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_upcoming);
+        mProgressBarUpcoming = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mUpcomingMoviesAdapter);
     }
@@ -71,6 +86,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         View include = findViewById(R.id.include_top_rate);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_top_rate);
+        mProgressBarTopRate = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mTopRateMoviesAdapter);
     }
@@ -79,6 +95,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         View include = findViewById(R.id.include_genres);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_genres);
+        mProgressBarGenres = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mGenresMoviesAdapter);
     }
@@ -88,30 +105,40 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mPresenter.loadNowPlayingMovies();
         mPresenter.loadUpcomingMovies();
         mPresenter.loadTopRateMovies();
+        mProgressBarPopular.setVisibility(View.VISIBLE);
+        mProgressBarNowPlaying.setVisibility(View.VISIBLE);
+        mProgressBarTopRate.setVisibility(View.VISIBLE);
+        mProgressBarUpcoming.setVisibility(View.VISIBLE);
+        mProgressBarGenres.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onGetPopularMoviesSuccess(List<Movie> movies) {
+        mProgressBarPopular.setVisibility(View.GONE);
         mPopularMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetNowPlayingMoviesSuccess(List<Movie> movies) {
+        mProgressBarNowPlaying.setVisibility(View.GONE);
         mNowPlayingMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetUpcomingMoviesSuccess(List<Movie> movies) {
+        mProgressBarUpcoming.setVisibility(View.GONE);
         mUpcomingMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetTopRateMoviesSuccess(List<Movie> movies) {
+        mProgressBarTopRate.setVisibility(View.GONE);
         mTopRateMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetGenresMoviesSuccess(List<Movie> movies) {
+        mProgressBarGenres.setVisibility(View.GONE);
         mGenresMoviesAdapter.updateData(movies);
     }
 }
