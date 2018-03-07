@@ -9,10 +9,6 @@ import java.util.List;
  * Created by vungoctuan on 2/28/18.
  */
 public class HomeContract {
-    public interface LoadAdapterDataCallback {
-        void onItemClick(Movie movie);
-    }
-
     public interface View {
         void onGetPopularMoviesSuccess(List<Movie> movies);
         void onGetNowPlayingMoviesSuccess(List<Movie> movies);

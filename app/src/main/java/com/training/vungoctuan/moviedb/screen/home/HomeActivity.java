@@ -1,5 +1,7 @@
 package com.training.vungoctuan.moviedb.screen.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mUpcomingMoviesAdapter, mTopRateMoviesAdapter, mGenresMoviesAdapter;
     private ProgressBar mProgressBarPopular, mProgressBarNowPlaying,
         mProgressBarUpcoming, mProgressBarTopRate, mProgressBarGenres;
+    private static Intent mIntent;
+
+    public static Intent getInstance(Context context) {
+        if (mIntent == null) {
+            mIntent = new Intent(context, HomeActivity.class);
+        }
+        return mIntent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,12 +50,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void initMoviesAdapters() {
-        HomeContract.LoadAdapterDataCallback callback =
-            new HomeContract.LoadAdapterDataCallback() {
+        HomeAdapter.LoadAdapterDataCallback callback =
+            new HomeAdapter.LoadAdapterDataCallback() {
                 @Override
                 public void onItemClick(final Movie movie) {
                     startActivity(
                         DetailActivity.getInstance(getApplicationContext(), movie));
+                    finish();
                 }
             };
         mPopularMoviesAdapter = new HomeAdapter(this, callback);
