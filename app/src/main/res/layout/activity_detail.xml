@@ -71,17 +71,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_favourite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/color_pink"
-                android:src="@drawable/ic_favorite_white_24dp"
-                app:layout_constraintLeft_toLeftOf="@id/image_detail_star"
-                app:layout_constraintRight_toRightOf="@id/text_detail_rate"
-                app:layout_constraintTop_toBottomOf="@id/image_detail_star"
-                app:layout_constraintBottom_toBottomOf="@id/image_detail_movie"/>
-
             <ImageView
                 android:id="@+id/image_detail_movie"
                 android:layout_width="@dimen/card_width"
@@ -97,7 +86,7 @@
 
             <TextView
                 android:id="@+id/text_detail_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/text_detail_margin_left"
                 android:layout_marginStart="@dimen/text_detail_margin_left"
@@ -105,6 +94,7 @@
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_splash_size"
                 app:layout_constraintLeft_toRightOf="@id/image_detail_movie"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/image_detail_movie"/>
 
             <TextView
@@ -121,7 +111,7 @@
                 android:id="@+id/image_detail_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star"
+                android:src="@drawable/ic_star_yellow_24dp"
                 app:layout_constraintLeft_toLeftOf="@+id/text_detail_name"
                 app:layout_constraintTop_toBottomOf="@+id/text_detail_information"/>
 
@@ -138,6 +128,16 @@
                 app:layout_constraintLeft_toRightOf="@+id/image_detail_star"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/image_detail_star"/>
+
+            <ImageButton
+                android:id="@+id/button_favourite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_pink"
+                android:src="@drawable/ic_favorite_white_24dp"
+                app:layout_constraintLeft_toLeftOf="@id/image_detail_star"
+                app:layout_constraintRight_toRightOf="@id/text_detail_rate"
+                app:layout_constraintTop_toBottomOf="@id/image_detail_star"/>
 
             <TextView
                 android:id="@+id/text_detail_overview_title"
@@ -156,7 +156,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="@dimen/text_detail_spacing_extra"
-                android:maxLines="10"
+                android:maxLines="3"
+                android:paddingEnd="@dimen/text_detail_overview_padding_right"
+                android:paddingRight="@dimen/text_detail_overview_padding_right"
                 android:text="@string/test_strong_string"
                 android:textColor="@color/color_white"
                 android:textSize="@dimen/text_home_size"
@@ -171,69 +173,35 @@
                 android:text="@string/action_view_more"
                 android:textAllCaps="false"
                 android:textColor="@color/color_primary"
-                app:layout_constraintBottom_toBottomOf="@id/text_detail_overview"
-                app:layout_constraintRight_toRightOf="parent"/>
-
-            <TextView
-                android:id="@+id/text_detail_producer_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_title_margin_top"
-                android:text="@string/text_detail_producer"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_home_size"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/image_detail_movie"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_detail_overview"/>
 
-            <GridLayout
-                android:id="@+id/grid_producer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/text_detail_producer_title"
-                app:layout_constraintTop_toBottomOf="@id/text_detail_producer_title">
-            </GridLayout>
-
-            <TextView
-                android:id="@+id/text_detail_actor_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_title_margin_top"
-                android:text="@string/text_detail_actor"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_home_size"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/image_detail_movie"
-                app:layout_constraintTop_toBottomOf="@id/grid_producer"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_actors"
-                layoutManager="LinearLayoutManager"
+            <include
+                android:id="@+id/include_production"
+                layout="@layout/recycler_movie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:scrollbars="horizontal"
-                app:layoutManager="LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/text_detail_actor_title"/>
+                android:layout_marginTop="@dimen/text_title_margin_top"
+                app:layout_constraintLeft_toLeftOf="@id/image_detail_movie"
+                app:layout_constraintTop_toBottomOf="@id/button_expand_overview"/>
 
-            <TextView
-                android:id="@+id/text_detail_genres_title"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/include_cast"
+                layout="@layout/recycler_movie"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/text_title_margin_top"
-                android:text="@string/text_detail_genres"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/text_home_size"
-                android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/image_detail_movie"
-                app:layout_constraintTop_toBottomOf="@id/recycler_actors"/>
+                app:layout_constraintTop_toBottomOf="@id/include_production"/>
 
-            <GridLayout
-                android:id="@+id/grid_genres"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/include_crew"
+                layout="@layout/recycler_movie"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@id/text_detail_producer_title"
-                app:layout_constraintTop_toBottomOf="@id/text_detail_producer_title"/>
+                android:layout_marginTop="@dimen/text_title_margin_top"
+                app:layout_constraintLeft_toLeftOf="@id/image_detail_movie"
+                app:layout_constraintTop_toBottomOf="@id/include_cast"/>
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

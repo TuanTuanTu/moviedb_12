@@ -36,9 +36,9 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadPopularMovies() {
         mMovieRepository.getMoviesByCategories(
-            Constant.API_URL_MOVIE_POPULAR,
-            Constant.API_URL_LANGUAGE,
-            Constant.API_URL_FIRST_PAGE,
+            Constant.ApiUrlDef.API_URL_MOVIE_POPULAR,
+            Constant.ApiParameter.API_URL_LANGUAGE,
+            Constant.ApiParameter.API_URL_FIRST_PAGE,
             new MovieDataSource
                 .LoadMoviesCallback() {
                 @Override
@@ -55,9 +55,9 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadNowPlayingMovies() {
         mMovieRepository.getMoviesByCategories(
-            Constant.API_URL_MOVIE_NOW_PLAYING,
-            Constant.API_URL_LANGUAGE,
-            Constant.API_URL_FIRST_PAGE,
+            Constant.ApiUrlDef.API_URL_MOVIE_NOW_PLAYING,
+            Constant.ApiParameter.API_URL_LANGUAGE,
+            Constant.ApiParameter.API_URL_FIRST_PAGE,
             new MovieDataSource.LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
@@ -73,9 +73,9 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadUpcomingMovies() {
         mMovieRepository.getMoviesByCategories(
-            Constant.API_URL_MOVIE_UPCOMING,
-            Constant.API_URL_LANGUAGE,
-            Constant.API_URL_FIRST_PAGE,
+            Constant.ApiUrlDef.API_URL_MOVIE_UPCOMING,
+            Constant.ApiParameter.API_URL_LANGUAGE,
+            Constant.ApiParameter.API_URL_FIRST_PAGE,
             new MovieDataSource.LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
@@ -91,9 +91,9 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadTopRateMovies() {
         mMovieRepository.getMoviesByCategories(
-            Constant.API_URL_MOVIE_TOP_RATED,
-            Constant.API_URL_LANGUAGE,
-            Constant.API_URL_FIRST_PAGE,
+            Constant.ApiUrlDef.API_URL_MOVIE_TOP_RATED,
+            Constant.ApiParameter.API_URL_LANGUAGE,
+            Constant.ApiParameter.API_URL_FIRST_PAGE,
             new MovieDataSource.LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {

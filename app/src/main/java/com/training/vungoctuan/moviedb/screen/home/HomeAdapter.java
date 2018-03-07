@@ -68,7 +68,7 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
             mTextName.setText(movie.getTitle());
             mTextRate.setText(movie.getVoteAverage());
             Glide.with(itemView.getContext())
-                .load(String.format(Constant.API_IMAGE_URL,movie.getPosterPath()))
+                .load(String.format(Constant.ApiRequestUrl.API_IMAGE_URL,movie.getPosterPath()))
                 .into(mImageMovie);
         }
     }

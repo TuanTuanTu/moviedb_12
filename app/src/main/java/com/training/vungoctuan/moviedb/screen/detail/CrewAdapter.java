@@ -65,7 +65,8 @@ public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHol
 
         public void setData(Crew crew) {
             if (crew == null) return;
-            ImageUtils.loadImageFromUrl(mImageView, crew.getProfilePath());
+            ImageUtils.loadImageFromUrl(
+                mImageView, crew.getProfilePath(), R.drawable.ic_avatar_man);
             mTextName.setText(crew.getName());
             mTextRole.setText(crew.getDepartment());
         }

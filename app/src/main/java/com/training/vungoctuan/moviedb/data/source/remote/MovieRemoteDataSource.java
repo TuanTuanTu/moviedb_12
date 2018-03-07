@@ -24,7 +24,7 @@ public class MovieRemoteDataSource implements MovieDataSource.RemoteDataSource {
         new FetchDataFromUrl(callback)
             .execute(
                 String.format(
-                    Constant.API_URL_REQUEST,
+                    Constant.ApiRequestUrl.API_URL_REQUEST,
                     categories,
                     language,
                     page));

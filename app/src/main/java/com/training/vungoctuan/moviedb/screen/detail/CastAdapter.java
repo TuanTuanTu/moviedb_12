@@ -65,7 +65,8 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
 
         public void setData(Cast cast) {
             if (cast == null) return;
-            ImageUtils.loadImageFromUrl(mImageView, cast.getProfilePath());
+            ImageUtils.loadImageFromUrl(
+                mImageView, cast.getProfilePath(), R.drawable.ic_avatar_man);
             mTextName.setText(cast.getName());
             mTextRole.setText(cast.getCharacter());
         }

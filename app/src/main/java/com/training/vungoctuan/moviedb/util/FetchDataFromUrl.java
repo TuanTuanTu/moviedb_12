@@ -14,10 +14,10 @@ import java.util.List;
  * Created by vungoctuan on 3/1/18.
  */
 public class FetchDataFromUrl extends AsyncTask<String, Void, List<Movie>> {
-    private MovieDataSource.LoadMoviesCallback mLoadMoviesCallback;
+    private MovieDataSource.LoadMoviesCallback mCallback;
 
-    public FetchDataFromUrl(MovieDataSource.LoadMoviesCallback loadMoviesCallback) {
-        mLoadMoviesCallback = loadMoviesCallback;
+    public FetchDataFromUrl(MovieDataSource.LoadMoviesCallback callback) {
+        mCallback = callback;
     }
 
     @Override
@@ -35,8 +35,12 @@ public class FetchDataFromUrl extends AsyncTask<String, Void, List<Movie>> {
 
     @Override
     protected void onPostExecute(List<Movie> movies) {
-        if (movies == null) mLoadMoviesCallback.onDataNotAvailable();
-        mLoadMoviesCallback.onMoviesLoaded(movies);
+        if (mCallback == null) return;
+        if (movies == null) {
+            mCallback.onDataNotAvailable();
+        } else {
+            mCallback.onMoviesLoaded(movies);
+        }
     }
 }
 
