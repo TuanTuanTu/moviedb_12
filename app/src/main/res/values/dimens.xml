@@ -26,4 +26,5 @@
     <dimen name="text_detail_overview_padding_right">10dp</dimen>
     <dimen name="button_item_production_height">40dp</dimen>
     <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
 </resources>

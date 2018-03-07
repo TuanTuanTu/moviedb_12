@@ -26,9 +26,9 @@ public class Constant {
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
 
-    @StringDef({API_URL_MOVIE_POPULAR,API_URL_MOVIE_NOW_PLAYING,
-        API_URL_MOVIE_UPCOMING, API_URL_MOVIE_TOP_RATED,API_URL_MOVIE_GENRES,
-        API_URL_MOVIE_DETAIL,API_URL_MOVIE_CREDIT})
+    @StringDef({API_URL_MOVIE_POPULAR, API_URL_MOVIE_NOW_PLAYING,
+        API_URL_MOVIE_UPCOMING, API_URL_MOVIE_TOP_RATED, API_URL_MOVIE_GENRES,
+        API_URL_MOVIE_DETAIL, API_URL_MOVIE_CREDIT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ApiUrlDef {
         String API_URL_MOVIE_POPULAR = "movie/popular";

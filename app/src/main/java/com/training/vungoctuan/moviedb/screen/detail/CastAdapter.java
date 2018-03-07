@@ -45,7 +45,7 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
         return mCasts == null ? 0 : mCasts.size();
     }
 
-    void updateData(List<Cast> casts){
+    void updateData(List<Cast> casts) {
         if (casts == null) return;
         mCasts.clear();
         mCasts.addAll(casts);
@@ -66,7 +66,9 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
         public void setData(Cast cast) {
             if (cast == null) return;
             ImageUtils.loadImageFromUrl(
-                mImageView, cast.getProfilePath(), R.drawable.ic_avatar_man);
+                mImageView,
+                cast.getProfilePath(),
+                R.drawable.ic_avatar_man);
             mTextName.setText(cast.getName());
             mTextRole.setText(cast.getCharacter());
         }

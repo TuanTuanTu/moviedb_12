@@ -13,6 +13,5 @@ public interface SplashContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-        void loadPopularMovies(List<Movie> movies);
     }
 }
