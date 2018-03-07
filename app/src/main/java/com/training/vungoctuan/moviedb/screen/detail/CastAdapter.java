@@ -22,9 +22,12 @@ import java.util.List;
  */
 public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHolder> {
     private List<Cast> mCasts = new ArrayList<>();
+    private DetailContract.LoadCastDataCallback mCallback;
 
-    protected CastAdapter(@NonNull Context context) {
+    CastAdapter(@NonNull Context context,
+                DetailContract.LoadCastDataCallback callback) {
         super(context);
+        mCallback = callback;
     }
 
     @NonNull
@@ -32,7 +35,7 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
             getContext()).inflate(R.layout.item_credit, parent, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, mCallback);
     }
 
     @Override
@@ -55,16 +58,24 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mTextName, mTextRole;
+        private Cast mCast;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, final DetailContract.LoadCastDataCallback callback) {
             super(view);
             mImageView = view.findViewById(R.id.image_card_credit);
             mTextName = view.findViewById(R.id.text_card_credit_name);
             mTextRole = view.findViewById(R.id.text_card_credit_role);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callback.onItemCastClicked(mCast);
+                }
+            });
         }
 
         public void setData(Cast cast) {
             if (cast == null) return;
+            mCast = cast;
             ImageUtils.loadImageFromUrl(
                 mImageView,
                 cast.getProfilePath(),

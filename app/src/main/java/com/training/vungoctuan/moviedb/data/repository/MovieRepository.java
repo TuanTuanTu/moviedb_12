@@ -31,4 +31,10 @@ public class MovieRepository implements MovieDataSource.RemoteDataSource {
             page,
             callback);
     }
+
+    @Override
+    public void getMoviesByUrl(String id, String url,
+                               MovieDataSource.LoadMoviesCallback callback) {
+        mMovieRemoteDataSource.getMoviesByUrl(id, url, callback);
+    }
 }

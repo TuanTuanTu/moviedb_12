@@ -20,9 +20,12 @@ import java.util.List;
  */
 public class ProductionAdapter extends BaseRecyclerViewAdapter<ProductionAdapter.ItemViewHolder> {
     private List<Production> mProductions = new ArrayList<>();
+    private DetailContract.LoadProductionDataCallback mCallback;
 
-    ProductionAdapter(@NonNull Context context) {
+    ProductionAdapter(@NonNull Context context,
+                      DetailContract.LoadProductionDataCallback callback) {
         super(context);
+        mCallback = callback;
     }
 
     @NonNull
@@ -31,7 +34,7 @@ public class ProductionAdapter extends BaseRecyclerViewAdapter<ProductionAdapter
                                              int viewType) {
         View view = LayoutInflater.from(
             getContext()).inflate(R.layout.item_production, parent, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, mCallback);
     }
 
     @Override
@@ -53,14 +56,23 @@ public class ProductionAdapter extends BaseRecyclerViewAdapter<ProductionAdapter
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private Button mButtonItemProduction;
+        private Production mProduction;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view,
+                       final DetailContract.LoadProductionDataCallback callback) {
             super(view);
             mButtonItemProduction = view.findViewById(R.id.button_item_production);
+            mButtonItemProduction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callback.onItemProductionClicked(mProduction);
+                }
+            });
         }
 
         private void setData(Production production) {
             if (production == null) return;
+            mProduction = production;
             mButtonItemProduction.setText(production.getName());
         }
     }

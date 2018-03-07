@@ -7,6 +7,9 @@ import com.training.vungoctuan.moviedb.BuildConfig;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_BY_PEOPLE;
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_BY_PRODUCTION;
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_WITH_CAST;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_CREDIT;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_DETAIL;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_GENRES;
@@ -24,6 +27,7 @@ public class Constant {
     public static final int TEXT_OVERVIEW_MIN_LINES = 2;
     public static final int TEXT_OVERVIEW_MAX_LINES = 25;
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
+    public static final String BUNDLE_PEOPLE_ID = "BUNDLE_PEOPLE_ID";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
 
     @StringDef({API_URL_MOVIE_POPULAR, API_URL_MOVIE_NOW_PLAYING,
@@ -38,6 +42,9 @@ public class Constant {
         String API_URL_MOVIE_GENRES = "genre/movie/list";
         String API_URL_MOVIE_DETAIL = "movie/";
         String API_URL_MOVIE_CREDIT = "movie/%s/credits?";
+        String API_URL_MOVIES_BY_PEOPLE = "discover/movie?";
+        String API_URL_MOVIES_BY_PRODUCTION = "company/%s/movies?";
+        String API_URL_MOVIES_WITH_CAST = "&with_cast=%s";
     }
 
     public static class ApiRequestUrl {
@@ -50,6 +57,10 @@ public class Constant {
         public static final String API_CREDIT_BY_MOVIE_REQUEST = API_URL
             + API_URL_MOVIE_CREDIT + API_KEY;
         static final String API_REQUEST_METHOD = "GET";
+        public static final String API_MOVIES_BY_PEOPLE_REQUEST = API_URL
+            + API_URL_MOVIES_BY_PEOPLE + API_KEY + API_URL_MOVIES_WITH_CAST;
+        public static final String API_MOVIES_BY_PRODUCTION_REQUEST = API_URL
+            + API_URL_MOVIES_BY_PRODUCTION + API_KEY;
     }
 
     public static class ApiParameter {

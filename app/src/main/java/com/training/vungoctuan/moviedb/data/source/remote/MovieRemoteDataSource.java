@@ -29,4 +29,11 @@ public class MovieRemoteDataSource implements MovieDataSource.RemoteDataSource {
                     language,
                     page));
     }
+
+    @Override
+    public void getMoviesByUrl(String id, String url,
+                               MovieDataSource.LoadMoviesCallback callback) {
+        new FetchDataFromUrl(callback)
+            .execute(String.format(url, id));
+    }
 }
