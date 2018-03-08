@@ -22,5 +22,6 @@
     <string name="title_crew">Crews</string>
     <string name="title_less">Less</string>
     <string name="title_more">More</string>
+    <string name="title_loading">Loading...</string>
 
 </resources>

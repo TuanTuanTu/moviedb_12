@@ -13,10 +13,14 @@ public class SplashPresenter implements SplashContract.Presenter {
 
     @Override
     public void onStart() {
-
     }
 
     @Override
     public void onStop() {
+    }
+
+    @Override
+    public void loadData() {
+        mView.onLoadingSuccess();
     }
 }

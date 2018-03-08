@@ -24,6 +24,7 @@ import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MO
 public class Constant {
     static final int URL_REQUEST_TIMEOUT = 10000;
     static final int URL_CONNECT_TIMEOUT = 15000;
+    public static final int SPLASH_TIMEOUT = 500;
     public static final int TEXT_OVERVIEW_MIN_LINES = 2;
     public static final int TEXT_OVERVIEW_MAX_LINES = 25;
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
