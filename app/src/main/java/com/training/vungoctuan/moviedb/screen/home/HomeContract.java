@@ -9,7 +9,7 @@ import java.util.List;
  * Created by vungoctuan on 2/28/18.
  */
 public class HomeContract {
-    public interface LoadAdapterDataCallback{
+    public interface LoadAdapterDataCallback {
         void onItemClick(Movie movie);
     }
 

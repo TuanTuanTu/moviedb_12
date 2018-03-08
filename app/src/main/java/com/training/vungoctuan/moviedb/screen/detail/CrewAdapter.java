@@ -22,9 +22,12 @@ import java.util.List;
  */
 public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHolder> {
     private List<Crew> mCrews = new ArrayList<>();
+    private DetailContract.LoadCrewDataCallback mCallback;
 
-    protected CrewAdapter(@NonNull Context context) {
+    CrewAdapter(@NonNull Context context,
+                DetailContract.LoadCrewDataCallback callback) {
         super(context);
+        mCallback = callback;
     }
 
     @NonNull
@@ -32,7 +35,7 @@ public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHol
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(
             getContext()).inflate(R.layout.item_credit, parent, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, mCallback);
     }
 
     @Override
@@ -55,16 +58,25 @@ public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHol
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mTextName, mTextRole;
+        private Crew mCrew;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view,
+                       final DetailContract.LoadCrewDataCallback callback) {
             super(view);
             mImageView = view.findViewById(R.id.image_card_credit);
             mTextName = view.findViewById(R.id.text_card_credit_name);
             mTextRole = view.findViewById(R.id.text_card_credit_role);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callback.onItemCrewClicked(mCrew);
+                }
+            });
         }
 
         public void setData(Crew crew) {
             if (crew == null) return;
+            mCrew = crew;
             ImageUtils.loadImageFromUrl(
                 mImageView,
                 crew.getProfilePath(),
