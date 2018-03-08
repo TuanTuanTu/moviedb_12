@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHolder> {
     private List<Cast> mCasts = new ArrayList<>();
-    private DetailContract.LoadCastDataCallback mCallback;
+    private LoadCastDataCallback mCallback;
 
     CastAdapter(@NonNull Context context,
-                DetailContract.LoadCastDataCallback callback) {
+                LoadCastDataCallback callback) {
         super(context);
         mCallback = callback;
     }
@@ -60,7 +60,7 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
         private TextView mTextName, mTextRole;
         private Cast mCast;
 
-        ItemViewHolder(View view, final DetailContract.LoadCastDataCallback callback) {
+        ItemViewHolder(View view, final LoadCastDataCallback callback) {
             super(view);
             mImageView = view.findViewById(R.id.image_card_credit);
             mTextName = view.findViewById(R.id.text_card_credit_name);
@@ -68,6 +68,7 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (callback == null) return;
                     callback.onItemCastClicked(mCast);
                 }
             });
@@ -83,5 +84,9 @@ public class CastAdapter extends BaseRecyclerViewAdapter<CastAdapter.ItemViewHol
             mTextName.setText(cast.getName());
             mTextRole.setText(cast.getCharacter());
         }
+    }
+
+    interface LoadCastDataCallback {
+        void onItemCastClicked(Cast cast);
     }
 }

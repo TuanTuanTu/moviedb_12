@@ -22,11 +22,11 @@ import java.util.List;
  * Created by vungoctuan on 2/28/18.
  */
 public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHolder> {
-    private HomeContract.LoadAdapterDataCallback mCallback;
+    private LoadAdapterDataCallback mCallback;
     private List<Movie> mMovies = new ArrayList<>();
 
     HomeAdapter(@NonNull Context context,
-                HomeContract.LoadAdapterDataCallback callback) {
+                LoadAdapterDataCallback callback) {
         super(context);
         mCallback = callback;
     }
@@ -60,7 +60,7 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
         private TextView mTextName, mTextRate;
         private Movie mMovie;
 
-        ItemViewHolder(View view, final HomeContract.LoadAdapterDataCallback mCallback) {
+        ItemViewHolder(View view, final LoadAdapterDataCallback mCallback) {
             super(view);
             mImageMovie = view.findViewById(R.id.image_card_movie);
             mTextName = view.findViewById(R.id.text_card_name);
@@ -82,5 +82,9 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
                 .load(String.format(Constant.ApiRequestUrl.API_IMAGE_URL, movie.getPosterPath()))
                 .into(mImageMovie);
         }
+    }
+
+    public interface LoadAdapterDataCallback {
+        void onItemClick(Movie movie);
     }
 }

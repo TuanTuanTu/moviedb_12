@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class ProductionAdapter extends BaseRecyclerViewAdapter<ProductionAdapter.ItemViewHolder> {
     private List<Production> mProductions = new ArrayList<>();
-    private DetailContract.LoadProductionDataCallback mCallback;
+    private LoadProductionDataCallback mCallback;
 
     ProductionAdapter(@NonNull Context context,
-                      DetailContract.LoadProductionDataCallback callback) {
+                      LoadProductionDataCallback callback) {
         super(context);
         mCallback = callback;
     }
@@ -59,12 +59,13 @@ public class ProductionAdapter extends BaseRecyclerViewAdapter<ProductionAdapter
         private Production mProduction;
 
         ItemViewHolder(View view,
-                       final DetailContract.LoadProductionDataCallback callback) {
+                       final LoadProductionDataCallback callback) {
             super(view);
             mButtonItemProduction = view.findViewById(R.id.button_item_production);
             mButtonItemProduction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (callback == null) return;
                     callback.onItemProductionClicked(mProduction);
                 }
             });
@@ -75,5 +76,9 @@ public class ProductionAdapter extends BaseRecyclerViewAdapter<ProductionAdapter
             mProduction = production;
             mButtonItemProduction.setText(production.getName());
         }
+    }
+
+    interface LoadProductionDataCallback {
+        void onItemProductionClicked(Production production);
     }
 }

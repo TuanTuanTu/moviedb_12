@@ -28,6 +28,7 @@ public class Constant {
     public static final int TEXT_OVERVIEW_MAX_LINES = 25;
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
     public static final String BUNDLE_PEOPLE_ID = "BUNDLE_PEOPLE_ID";
+    public static final String BUNDLE_PEOPLE_NAME = "BUNDLE_PEOPLE_NAME";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
 
     @StringDef({API_URL_MOVIE_POPULAR, API_URL_MOVIE_NOW_PLAYING,

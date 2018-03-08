@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHolder> {
     private List<Crew> mCrews = new ArrayList<>();
-    private DetailContract.LoadCrewDataCallback mCallback;
+    private LoadCrewDataCallback mCallback;
 
     CrewAdapter(@NonNull Context context,
-                DetailContract.LoadCrewDataCallback callback) {
+                LoadCrewDataCallback callback) {
         super(context);
         mCallback = callback;
     }
@@ -61,7 +61,7 @@ public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHol
         private Crew mCrew;
 
         ItemViewHolder(View view,
-                       final DetailContract.LoadCrewDataCallback callback) {
+                       final LoadCrewDataCallback callback) {
             super(view);
             mImageView = view.findViewById(R.id.image_card_credit);
             mTextName = view.findViewById(R.id.text_card_credit_name);
@@ -69,6 +69,7 @@ public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHol
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (callback == null) return;
                     callback.onItemCrewClicked(mCrew);
                 }
             });
@@ -84,5 +85,9 @@ public class CrewAdapter extends BaseRecyclerViewAdapter<CrewAdapter.ItemViewHol
             mTextName.setText(crew.getName());
             mTextRole.setText(crew.getDepartment());
         }
+    }
+
+    interface LoadCrewDataCallback {
+        void onItemCrewClicked(Crew crew);
     }
 }

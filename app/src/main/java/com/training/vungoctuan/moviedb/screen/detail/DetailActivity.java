@@ -9,13 +9,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.model.Production;
+import com.training.vungoctuan.moviedb.data.model.credit.Cast;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
+import com.training.vungoctuan.moviedb.data.model.credit.Crew;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
+import com.training.vungoctuan.moviedb.screen.movies.MoviesByCastActivity;
+import com.training.vungoctuan.moviedb.screen.movies.MoviesByCrewActivity;
+import com.training.vungoctuan.moviedb.screen.movies.MoviesByProductionActivity;
 import com.training.vungoctuan.moviedb.util.Constant;
 import com.training.vungoctuan.moviedb.util.ImageUtils;
 
@@ -29,6 +35,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private DetailContract.Presenter mPresenter;
     private Button mButtonExpand;
     private TextView mTextDetailOverview;
+    private ProgressBar mProgressBarProduction, mProgressBarCast, mProgressBarCrew;
     private boolean mExpanded;
     private ProductionAdapter mProductionAdapter;
     private CastAdapter mCastAdapter;
@@ -52,8 +59,6 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         mMovie = getIntent().getParcelableExtra(Constant.BUNDLE_MOVIE);
         mPresenter = new DetailPresenter();
         mPresenter.setView(this);
-        mPresenter.loadProductionsByMovieId(mMovie.getId());
-        mPresenter.loadCreditByMovieId(mMovie.getId());
         initToolbar();
         initButtonComponents();
         initImageViewComponents();
@@ -62,6 +67,15 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         initLayoutProductions();
         initLayoutCasts();
         initLayoutCrews();
+        loadDataFromApi();
+    }
+
+    private void loadDataFromApi() {
+        mProgressBarCast.setVisibility(View.VISIBLE);
+        mProgressBarCrew.setVisibility(View.VISIBLE);
+        mProgressBarProduction.setVisibility(View.VISIBLE);
+        mPresenter.loadProductionsByMovieId(mMovie.getId());
+        mPresenter.loadCreditByMovieId(mMovie.getId());
     }
 
     private void initToolbar() {
@@ -69,16 +83,47 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         toolbar.setTitleTextColor(getResources().getColor(R.color.color_white));
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initDetailAdapters() {
-        mProductionAdapter = new ProductionAdapter(this);
-        mCastAdapter = new CastAdapter(this);
-        mCrewAdapter = new CrewAdapter(this);
+        mProductionAdapter = new ProductionAdapter(this,
+            new ProductionAdapter.LoadProductionDataCallback() {
+                @Override
+                public void onItemProductionClicked(Production production) {
+                    startActivity(MoviesByProductionActivity.getInstance(
+                        getApplicationContext(),
+                        production));
+                }
+            });
+        mCastAdapter = new CastAdapter(this,
+            new CastAdapter.LoadCastDataCallback() {
+                @Override
+                public void onItemCastClicked(Cast cast) {
+                    startActivity(MoviesByCastActivity.getInstance(
+                        getApplicationContext(),
+                        cast));
+                }
+            });
+        mCrewAdapter = new CrewAdapter(this,
+            new CrewAdapter.LoadCrewDataCallback() {
+                @Override
+                public void onItemCrewClicked(Crew crew) {
+                    startActivity(MoviesByCrewActivity.getInstance(
+                        getApplicationContext(),
+                        crew));
+                }
+            });
     }
 
     private void initLayoutProductions() {
         View include = findViewById(R.id.include_production);
+        mProgressBarProduction = include.findViewById(R.id.progressbar_recycler);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_production);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
@@ -87,6 +132,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     private void initLayoutCasts() {
         View include = findViewById(R.id.include_cast);
+        mProgressBarCast = include.findViewById(R.id.progressbar_recycler);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_cast);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
@@ -95,6 +141,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     private void initLayoutCrews() {
         View include = findViewById(R.id.include_crew);
+        mProgressBarCrew = include.findViewById(R.id.progressbar_recycler);
         TextView textView = include.findViewById(R.id.text_recycler_title);
         textView.setText(R.string.title_crew);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
@@ -165,11 +212,14 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     @Override
     public void onLoadProductionSuccess(List<Production> productions) {
+        mProgressBarProduction.setVisibility(View.GONE);
         mProductionAdapter.updateData(productions);
     }
 
     @Override
     public void onLoadCreditSuccess(Credit credit) {
+        mProgressBarCrew.setVisibility(View.GONE);
+        mProgressBarCast.setVisibility(View.GONE);
         mCastAdapter.updateData(credit.getCasts());
         mCrewAdapter.updateData(credit.getCrews());
     }
