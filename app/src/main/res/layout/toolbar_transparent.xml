@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_detail"
         android:layout_width="match_parent"
@@ -11,4 +12,12 @@
         android:background="@color/color_transparent"
         app:layout_collapseMode="pin"
         app:layout_scrollFlags="scroll|enterAlways"/>
+
+    <ProgressBar
+        android:id="@+id/progressbar_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar_detail"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar_detail"/>
 </android.support.constraint.ConstraintLayout>
