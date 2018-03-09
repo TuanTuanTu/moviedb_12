@@ -17,6 +17,8 @@ import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MO
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_POPULAR;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_TOP_RATED;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_UPCOMING;
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_SEARCH_MOVIES;
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_SEARCH_QUERY;
 
 /**
  * Created by vungoctuan on 3/1/18.
@@ -30,6 +32,7 @@ public class Constant {
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
     public static final String BUNDLE_PEOPLE_ID = "BUNDLE_PEOPLE_ID";
     public static final String BUNDLE_PEOPLE_NAME = "BUNDLE_PEOPLE_NAME";
+    public static final String BUNDLE_SEARCH_QUERY = "BUNDLE_SEARCH_QUERY";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
 
     @StringDef({API_URL_MOVIE_POPULAR, API_URL_MOVIE_NOW_PLAYING,
@@ -47,6 +50,8 @@ public class Constant {
         String API_URL_MOVIES_BY_PEOPLE = "discover/movie?";
         String API_URL_MOVIES_BY_PRODUCTION = "company/%s/movies?";
         String API_URL_MOVIES_WITH_CAST = "&with_cast=%s";
+        String API_URL_SEARCH_MOVIES = "search/movie?";
+        String API_URL_SEARCH_QUERY = "&query=%s";
     }
 
     public static class ApiRequestUrl {
@@ -63,6 +68,8 @@ public class Constant {
             + API_URL_MOVIES_BY_PEOPLE + API_KEY + API_URL_MOVIES_WITH_CAST;
         public static final String API_MOVIES_BY_PRODUCTION_REQUEST = API_URL
             + API_URL_MOVIES_BY_PRODUCTION + API_KEY;
+        public static final String API_MOVIES_BY_SEARCH = API_URL
+            + API_URL_SEARCH_MOVIES + API_KEY + API_URL_SEARCH_QUERY;
     }
 
     public static class ApiParameter {

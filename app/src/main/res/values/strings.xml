@@ -23,5 +23,6 @@
     <string name="title_less">Less</string>
     <string name="title_more">More</string>
     <string name="title_loading">Loading...</string>
+    <string name="title_results">Results: %s</string>
 
 </resources>

@@ -44,10 +44,16 @@ public class MoviesAdapter extends BaseRecyclerViewAdapter<MoviesAdapter.ItemVie
         holder.setData(mMovies.get(position));
     }
 
-    public void updateData(List<Movie> movies) {
+    void updateData(List<Movie> movies) {
         if (movies == null) return;
         mMovies.clear();
         mMovies.addAll(movies);
+        notifyDataSetChanged();
+    }
+
+    void clearData() {
+        if (mMovies == null) return;
+        mMovies.clear();
         notifyDataSetChanged();
     }
 
