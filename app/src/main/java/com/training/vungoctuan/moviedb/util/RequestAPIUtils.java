@@ -2,6 +2,7 @@ package com.training.vungoctuan.moviedb.util;
 
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.model.Production;
+import com.training.vungoctuan.moviedb.data.model.Trailer;
 import com.training.vungoctuan.moviedb.data.model.credit.Cast;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
 import com.training.vungoctuan.moviedb.data.model.credit.Crew;
@@ -141,5 +142,23 @@ class RequestAPIUtils {
                 .getString(Constant.ApiResultKey.API_CAST_KEY_NAME));
             casts.add(cast);
         }
+    }
+
+    static List<Trailer> parseJsonToTrailer(String json) throws JSONException {
+        List<Trailer> trailers = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray movieJsonArray = jsonObject.getJSONArray(
+            Constant.ApiResultKey.API_KEY_RESULTS);
+        for (int i = 0; i < movieJsonArray.length(); i++) {
+            Trailer trailer = new Trailer();
+            trailer.setId(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_TRAILER_ID));
+            trailer.setKey(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_TRAILER_KEY));
+            trailer.setName(movieJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_TRAILER_NAME));
+            trailers.add(trailer);
+        }
+        return trailers;
     }
 }

@@ -27,13 +27,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mUpcomingMoviesAdapter, mTopRateMoviesAdapter, mGenresMoviesAdapter;
     private ProgressBar mProgressBarPopular, mProgressBarNowPlaying,
         mProgressBarUpcoming, mProgressBarTopRate, mProgressBarGenres;
-    private static Intent mIntent;
 
     public static Intent getInstance(Context context) {
-        if (mIntent == null) {
-            mIntent = new Intent(context, HomeActivity.class);
-        }
-        return mIntent;
+        return new Intent(context, HomeActivity.class);
     }
 
     @Override

@@ -19,6 +19,7 @@ import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MO
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIE_UPCOMING;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_SEARCH_MOVIES;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_SEARCH_QUERY;
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_TRAILER_MOVIE;
 
 /**
  * Created by vungoctuan on 3/1/18.
@@ -33,7 +34,9 @@ public class Constant {
     public static final String BUNDLE_PEOPLE_ID = "BUNDLE_PEOPLE_ID";
     public static final String BUNDLE_PEOPLE_NAME = "BUNDLE_PEOPLE_NAME";
     public static final String BUNDLE_SEARCH_QUERY = "BUNDLE_SEARCH_QUERY";
+    public static final String BUNDLE_TRAILER_KEY = "BUNDLE_TRAILER_KEY";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
+    public static final String API_KEY_YOUTUBE = BuildConfig.API_YOUTUBE_KEY;
 
     @StringDef({API_URL_MOVIE_POPULAR, API_URL_MOVIE_NOW_PLAYING,
         API_URL_MOVIE_UPCOMING, API_URL_MOVIE_TOP_RATED, API_URL_MOVIE_GENRES,
@@ -52,6 +55,7 @@ public class Constant {
         String API_URL_MOVIES_WITH_CAST = "&with_cast=%s";
         String API_URL_SEARCH_MOVIES = "search/movie?";
         String API_URL_SEARCH_QUERY = "&query=%s";
+        String API_URL_TRAILER_MOVIE = "movie/%s/videos?";
     }
 
     public static class ApiRequestUrl {
@@ -70,6 +74,8 @@ public class Constant {
             + API_URL_MOVIES_BY_PRODUCTION + API_KEY;
         public static final String API_MOVIES_BY_SEARCH = API_URL
             + API_URL_SEARCH_MOVIES + API_KEY + API_URL_SEARCH_QUERY;
+        public static final String API_TRAILER_BY_MOVIEID = API_URL
+            + API_URL_TRAILER_MOVIE + API_KEY;
     }
 
     public static class ApiParameter {
@@ -101,5 +107,8 @@ public class Constant {
         static final String API_CREW_NAME = "name";
         static final String API_CREW_JOB = "job";
         static final String API_CREW_KEY_PROFILE_PATH = "profile_path";
+        static final String API_TRAILER_ID = "id";
+        static final String API_TRAILER_KEY = "key";
+        static final String API_TRAILER_NAME = "name";
     }
 }
