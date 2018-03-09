@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
 import com.training.vungoctuan.moviedb.screen.detail.DetailActivity;
+import com.training.vungoctuan.moviedb.screen.movies.MoviesBySearchActivity;
 
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         initLayoutUpcoming();
         initLayoutTopRate();
         initLayoutGenres();
+        initSearchView();
         loadMovies();
     }
 
@@ -56,7 +59,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 public void onItemClick(final Movie movie) {
                     startActivity(
                         DetailActivity.getInstance(getApplicationContext(), movie));
-                    finish();
                 }
             };
         mPopularMoviesAdapter = new HomeAdapter(this, callback);
@@ -109,6 +111,26 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mProgressBarGenres = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mGenresMoviesAdapter);
+    }
+
+    private void initSearchView() {
+        View include = findViewById(R.id.toolbar);
+        final SearchView searchView = include.findViewById(R.id.search_home);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.setQuery("", false);
+                searchView.setIconified(true);
+                startActivity(MoviesBySearchActivity
+                    .getInstance(getApplicationContext(), query));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                return false;
+            }
+        });
     }
 
     private void loadMovies() {

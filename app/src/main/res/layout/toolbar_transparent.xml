@@ -7,17 +7,21 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_detail"
+        app:subtitleTextColor="@color/color_white"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/color_transparent"
         app:layout_collapseMode="pin"
         app:layout_scrollFlags="scroll|enterAlways"/>
 
-    <ProgressBar
-        android:id="@+id/progressbar_toolbar"
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_movies"
+        style="@style/SearchViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/toolbar_detail"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar_detail"/>
+        app:layout_constraintTop_toTopOf="@id/toolbar_detail"
+        app:searchIcon="@drawable/ic_search_white_24dp"/>
 </android.support.constraint.ConstraintLayout>
