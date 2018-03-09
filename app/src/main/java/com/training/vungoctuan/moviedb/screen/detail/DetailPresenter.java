@@ -1,13 +1,17 @@
 package com.training.vungoctuan.moviedb.screen.detail;
 
 import com.training.vungoctuan.moviedb.data.model.Production;
+import com.training.vungoctuan.moviedb.data.model.Trailer;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
 import com.training.vungoctuan.moviedb.data.repository.CreditRepository;
 import com.training.vungoctuan.moviedb.data.repository.ProductionRepository;
+import com.training.vungoctuan.moviedb.data.repository.TrailerRepository;
 import com.training.vungoctuan.moviedb.data.source.CreditDataSource;
 import com.training.vungoctuan.moviedb.data.source.ProductionDataSource;
+import com.training.vungoctuan.moviedb.data.source.TrailerDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.CreditRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.ProductionRemoteDataSource;
+import com.training.vungoctuan.moviedb.data.source.remote.TrailerRemoteDataSource;
 
 import java.util.List;
 
@@ -18,12 +22,15 @@ public class DetailPresenter implements DetailContract.Presenter {
     private DetailContract.View mView;
     private ProductionRepository mProductionRepository;
     private CreditRepository mCreditRepository;
+    private TrailerRepository mTrailerRepository;
 
-    public DetailPresenter() {
+    DetailPresenter() {
         mProductionRepository = ProductionRepository
             .getInstance(ProductionRemoteDataSource.getInstance());
         mCreditRepository = CreditRepository
             .getInstance(CreditRemoteDataSource.getInstance());
+        mTrailerRepository = TrailerRepository
+            .getInstance(TrailerRemoteDataSource.getInstance());
     }
 
     @Override
@@ -64,6 +71,22 @@ public class DetailPresenter implements DetailContract.Presenter {
                 }
 
                 // TODO: 3/6/18 Show TextView to UI as "data not availble"
+                @Override
+                public void onDataNotAvailable() {
+                }
+            });
+    }
+
+    @Override
+    public void loadTrailerByMovieId(String movieId) {
+        mTrailerRepository.getTrailerByMovieId(movieId,
+            new TrailerDataSource.LoadTrailersCallback() {
+                @Override
+                public void onTrailersLoaded(List<Trailer> trailers) {
+                    mView.onLoadTrailerSuccess(trailers);
+                }
+
+                // TODO: 3/9/18 Callback on load trailer
                 @Override
                 public void onDataNotAvailable() {
                 }

@@ -37,5 +37,6 @@
             android:theme="@style/AppTheme"/>
         <activity android:name=".screen.movies.MoviesByCrewActivity"/>
         <activity android:name=".screen.movies.MoviesBySearchActivity"/>
+        <activity android:name=".screen.youtube.YoutubeActivity"/>
     </application>
 </manifest>

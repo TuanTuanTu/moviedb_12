@@ -34,6 +34,7 @@
                 android:layout_width="@dimen/button_detail_play_width"
                 android:layout_height="@dimen/button_detail_play_height"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:background="@drawable/button_play_round"
                 android:drawableLeft="@drawable/ic_play_arrow_white_24dp"
                 android:drawableStart="@drawable/ic_play_arrow_white_24dp"

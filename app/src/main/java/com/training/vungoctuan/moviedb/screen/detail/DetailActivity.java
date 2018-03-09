@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.model.Production;
+import com.training.vungoctuan.moviedb.data.model.Trailer;
 import com.training.vungoctuan.moviedb.data.model.credit.Cast;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
 import com.training.vungoctuan.moviedb.data.model.credit.Crew;
@@ -22,6 +23,7 @@ import com.training.vungoctuan.moviedb.screen.BaseActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesByCastActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesByCrewActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesByProductionActivity;
+import com.training.vungoctuan.moviedb.screen.youtube.YoutubeActivity;
 import com.training.vungoctuan.moviedb.util.Constant;
 import com.training.vungoctuan.moviedb.util.ImageUtils;
 
@@ -33,7 +35,7 @@ import java.util.List;
 public class DetailActivity extends BaseActivity implements DetailContract.View,
     View.OnClickListener {
     private DetailContract.Presenter mPresenter;
-    private Button mButtonExpand;
+    private Button mButtonExpand, mButtonPlayTrailer;
     private TextView mTextDetailOverview;
     private ProgressBar mProgressBarProduction, mProgressBarCast, mProgressBarCrew;
     private boolean mExpanded;
@@ -41,15 +43,13 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private CastAdapter mCastAdapter;
     private CrewAdapter mCrewAdapter;
     private Movie mMovie;
-    private static Intent mIntent;
+    private List<Trailer> mTrailers;
 
     public static Intent getInstance(Context context, Movie movie) {
-        if (mIntent == null) {
-            mIntent = new Intent(context, DetailActivity.class);
-        }
-        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mIntent.putExtra(Constant.BUNDLE_MOVIE, movie);
-        return mIntent;
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Constant.BUNDLE_MOVIE, movie);
+        return intent;
     }
 
     @Override
@@ -76,6 +76,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         mProgressBarProduction.setVisibility(View.VISIBLE);
         mPresenter.loadProductionsByMovieId(mMovie.getId());
         mPresenter.loadCreditByMovieId(mMovie.getId());
+        mPresenter.loadTrailerByMovieId(mMovie.getId());
     }
 
     private void initToolbar() {
@@ -151,6 +152,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private void initButtonComponents() {
         mButtonExpand = findViewById(R.id.button_expand_overview);
         mButtonExpand.setOnClickListener(this);
+        mButtonPlayTrailer = findViewById(R.id.button_detail_play_trailer);
+        mButtonPlayTrailer.setOnClickListener(this);
     }
 
     private void initImageViewComponents() {
@@ -207,7 +210,15 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
             case R.id.button_expand_overview:
                 changeExpandOverview();
                 break;
+            case R.id.button_detail_play_trailer:
+                loadTrailerByYoutubeApi();
+                break;
         }
+    }
+
+    void loadTrailerByYoutubeApi() {
+        startActivity(YoutubeActivity
+            .getInstance(getApplicationContext(), mTrailers.get(0)));
     }
 
     @Override
@@ -222,5 +233,11 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         mProgressBarCast.setVisibility(View.GONE);
         mCastAdapter.updateData(credit.getCasts());
         mCrewAdapter.updateData(credit.getCrews());
+    }
+
+    @Override
+    public void onLoadTrailerSuccess(List<Trailer> trailers) {
+        mTrailers = trailers;
+        mButtonPlayTrailer.setVisibility(View.VISIBLE);
     }
 }

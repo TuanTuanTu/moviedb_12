@@ -24,5 +24,6 @@
     <string name="title_more">More</string>
     <string name="title_loading">Loading...</string>
     <string name="title_results">Results: %s</string>
+    <string name="toast_failed">Failed:</string>
 
 </resources>
