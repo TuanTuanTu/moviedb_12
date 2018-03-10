@@ -24,6 +24,6 @@ public class TrailerRemoteDataSource implements TrailerDataSource.RemoteDataSour
     public void getTrailerByMovieId(String id,
                                     TrailerDataSource.LoadTrailersCallback callback) {
         new FetchTrailerFromUrl(callback).execute(
-            String.format(Constant.ApiRequestUrl.API_TRAILER_BY_MOVIEID, id));
+            String.format(Constant.ApiRequestUrl.API_TRAILER_BY_MOVIE_ID, id));
     }
 }

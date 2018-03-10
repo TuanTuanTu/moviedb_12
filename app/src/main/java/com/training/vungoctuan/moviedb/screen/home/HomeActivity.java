@@ -11,9 +11,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.training.vungoctuan.moviedb.R;
+import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
 import com.training.vungoctuan.moviedb.screen.detail.DetailActivity;
+import com.training.vungoctuan.moviedb.screen.movies.MoviesByGenreActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesBySearchActivity;
 
 import java.util.List;
@@ -24,7 +26,8 @@ import java.util.List;
 public class HomeActivity extends BaseActivity implements HomeContract.View {
     private HomeContract.Presenter mPresenter;
     private HomeAdapter mPopularMoviesAdapter, mNowPlayingMoviesAdapter,
-        mUpcomingMoviesAdapter, mTopRateMoviesAdapter, mGenresMoviesAdapter;
+        mUpcomingMoviesAdapter, mTopRateMoviesAdapter;
+    private HomeGenresAdapter mHomeGenresAdapter;
     private ProgressBar mProgressBarPopular, mProgressBarNowPlaying,
         mProgressBarUpcoming, mProgressBarTopRate, mProgressBarGenres;
 
@@ -61,7 +64,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mNowPlayingMoviesAdapter = new HomeAdapter(this, callback);
         mUpcomingMoviesAdapter = new HomeAdapter(this, callback);
         mTopRateMoviesAdapter = new HomeAdapter(this, callback);
-        mGenresMoviesAdapter = new HomeAdapter(this, callback);
+        mHomeGenresAdapter = new HomeGenresAdapter(this,
+            new HomeGenresAdapter.LoadGenresAdapterCallback() {
+                @Override
+                public void onItemClick(Genre genre) {
+                    startActivity(
+                        MoviesByGenreActivity.getInstance(getApplicationContext(), genre));
+                }
+            });
     }
 
     private void initLayoutPopular() {
@@ -106,7 +116,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         textView.setText(R.string.title_genres);
         mProgressBarGenres = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
-        recyclerView.setAdapter(mGenresMoviesAdapter);
+        recyclerView.setAdapter(mHomeGenresAdapter);
     }
 
     private void initSearchView() {
@@ -134,6 +144,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mPresenter.loadNowPlayingMovies();
         mPresenter.loadUpcomingMovies();
         mPresenter.loadTopRateMovies();
+        mPresenter.loadGenresMovies();
         mProgressBarPopular.setVisibility(View.VISIBLE);
         mProgressBarNowPlaying.setVisibility(View.VISIBLE);
         mProgressBarTopRate.setVisibility(View.VISIBLE);
@@ -166,8 +177,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     @Override
-    public void onGetGenresMoviesSuccess(List<Movie> movies) {
+    public void onGetGenresSuccess(List<Genre> genres) {
         mProgressBarGenres.setVisibility(View.GONE);
-        mGenresMoviesAdapter.updateData(movies);
+        mHomeGenresAdapter.updateData(genres);
     }
 }

@@ -1,5 +1,6 @@
 package com.training.vungoctuan.moviedb.util;
 
+import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.model.Production;
 import com.training.vungoctuan.moviedb.data.model.Trailer;
@@ -160,5 +161,21 @@ class RequestAPIUtils {
             trailers.add(trailer);
         }
         return trailers;
+    }
+
+    static List<Genre> parseJsonToGenre(String json) throws JSONException {
+        List<Genre> genres = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray genreJsonArray = jsonObject.getJSONArray(
+            Constant.ApiResultKey.API_KEY_GENRES);
+        for (int i = 0; i < genreJsonArray.length(); i++) {
+            Genre genre = new Genre();
+            genre.setId(genreJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_KEY_GENRES_ID));
+            genre.setName(genreJsonArray.getJSONObject(i)
+                .getString(Constant.ApiResultKey.API_KEY_GENRES_NAME));
+            genres.add(genre);
+        }
+        return genres;
     }
 }

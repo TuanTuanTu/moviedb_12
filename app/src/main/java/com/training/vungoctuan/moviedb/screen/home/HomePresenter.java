@@ -1,8 +1,12 @@
 package com.training.vungoctuan.moviedb.screen.home;
 
+import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.repository.GenreRepository;
 import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
+import com.training.vungoctuan.moviedb.data.source.GenreDataSource;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
+import com.training.vungoctuan.moviedb.data.source.remote.GenreRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.training.vungoctuan.moviedb.util.Constant;
 
@@ -14,10 +18,13 @@ import java.util.List;
 public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View mView;
     private MovieRepository mMovieRepository;
+    private GenreRepository mGenreRepository;
 
     HomePresenter() {
         mMovieRepository =
             MovieRepository.getInstance(MovieRemoteDataSource.getInstance());
+        mGenreRepository =
+            GenreRepository.getInstance(GenreRemoteDataSource.getInstance());
     }
 
     @Override
@@ -46,6 +53,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     mView.onGetPopularMoviesSuccess(movies);
                 }
 
+                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
                 }
@@ -64,6 +72,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     mView.onGetNowPlayingMoviesSuccess(movies);
                 }
 
+                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
                 }
@@ -82,6 +91,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     mView.onGetUpcomingMoviesSuccess(movies);
                 }
 
+                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
                 }
@@ -100,6 +110,7 @@ public class HomePresenter implements HomeContract.Presenter {
                     mView.onGetTopRateMoviesSuccess(movies);
                 }
 
+                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
                 }
@@ -108,5 +119,16 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadGenresMovies() {
+        mGenreRepository.loadGenres(new GenreDataSource.LoadGenresCallback() {
+            @Override
+            public void onGenresLoaded(List<Genre> genres) {
+                mView.onGetGenresSuccess(genres);
+            }
+
+            // TODO: 3/10/18 callback
+            @Override
+            public void onDataNotAvailable() {
+            }
+        });
     }
 }

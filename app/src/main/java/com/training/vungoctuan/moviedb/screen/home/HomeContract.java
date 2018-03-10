@@ -1,5 +1,6 @@
 package com.training.vungoctuan.moviedb.screen.home;
 
+import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BasePresenter;
 
@@ -14,7 +15,7 @@ public class HomeContract {
         void onGetNowPlayingMoviesSuccess(List<Movie> movies);
         void onGetUpcomingMoviesSuccess(List<Movie> movies);
         void onGetTopRateMoviesSuccess(List<Movie> movies);
-        void onGetGenresMoviesSuccess(List<Movie> movies);
+        void onGetGenresSuccess(List<Genre> genres);
     }
 
     public interface Presenter extends BasePresenter<View> {
