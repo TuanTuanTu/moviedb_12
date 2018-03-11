@@ -7,6 +7,8 @@ import com.training.vungoctuan.moviedb.BuildConfig;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_GENRES;
+import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_BY_GENRE;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_BY_PEOPLE;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_BY_PRODUCTION;
 import static com.training.vungoctuan.moviedb.util.Constant.ApiUrlDef.API_URL_MOVIES_WITH_CAST;
@@ -35,6 +37,8 @@ public class Constant {
     public static final String BUNDLE_PEOPLE_NAME = "BUNDLE_PEOPLE_NAME";
     public static final String BUNDLE_SEARCH_QUERY = "BUNDLE_SEARCH_QUERY";
     public static final String BUNDLE_TRAILER_KEY = "BUNDLE_TRAILER_KEY";
+    public static final String BUNDLE_GENRE_ID = "BUNDLE_GENRE_ID";
+    public static final String BUNDLE_GENRE_NAME = "BUNDLE_GENRE_NAME";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
     public static final String API_KEY_YOUTUBE = BuildConfig.API_YOUTUBE_KEY;
 
@@ -56,6 +60,8 @@ public class Constant {
         String API_URL_SEARCH_MOVIES = "search/movie?";
         String API_URL_SEARCH_QUERY = "&query=%s";
         String API_URL_TRAILER_MOVIE = "movie/%s/videos?";
+        String API_URL_GENRES = "genre/movie/list?";
+        String API_URL_MOVIES_BY_GENRE = "genre/%s/movies?";
     }
 
     public static class ApiRequestUrl {
@@ -74,8 +80,12 @@ public class Constant {
             + API_URL_MOVIES_BY_PRODUCTION + API_KEY;
         public static final String API_MOVIES_BY_SEARCH = API_URL
             + API_URL_SEARCH_MOVIES + API_KEY + API_URL_SEARCH_QUERY;
-        public static final String API_TRAILER_BY_MOVIEID = API_URL
+        public static final String API_TRAILER_BY_MOVIE_ID = API_URL
             + API_URL_TRAILER_MOVIE + API_KEY;
+        public static final String API_GENRES_REQUEST = API_URL
+            + API_URL_GENRES + API_KEY;
+        public static final String API_MOVIES_BY_GENRE_REQUEST = API_URL
+            + API_URL_MOVIES_BY_GENRE + API_KEY;
     }
 
     public static class ApiParameter {
@@ -110,5 +120,8 @@ public class Constant {
         static final String API_TRAILER_ID = "id";
         static final String API_TRAILER_KEY = "key";
         static final String API_TRAILER_NAME = "name";
+        static final String API_KEY_GENRES = "genres";
+        static final String API_KEY_GENRES_ID = "id";
+        static final String API_KEY_GENRES_NAME = "name";
     }
 }
