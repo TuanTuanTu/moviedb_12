@@ -47,7 +47,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     public static Intent getInstance(Context context, Movie movie) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(Constant.BUNDLE_MOVIE, movie);
         return intent;
     }
@@ -239,5 +239,17 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     public void onLoadTrailerSuccess(List<Trailer> trailers) {
         mTrailers = trailers;
         mButtonPlayTrailer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLoadProductionFailed() {
+    }
+
+    @Override
+    public void onLoadCreditFailed() {
+    }
+
+    @Override
+    public void onLoadTrailerFailed() {
     }
 }

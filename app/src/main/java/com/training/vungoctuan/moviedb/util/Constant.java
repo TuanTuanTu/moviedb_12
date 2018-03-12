@@ -30,6 +30,7 @@ public class Constant {
     static final int URL_REQUEST_TIMEOUT = 10000;
     static final int URL_CONNECT_TIMEOUT = 15000;
     public static final int SPLASH_TIMEOUT = 500;
+    public static final int LOOP_REQUEST = 3000;
     public static final int TEXT_OVERVIEW_MIN_LINES = 2;
     public static final int TEXT_OVERVIEW_MAX_LINES = 25;
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
@@ -90,7 +91,6 @@ public class Constant {
 
     public static class ApiParameter {
         public static final String API_URL_LANGUAGE = "en-US";
-        public static final String API_URL_FIRST_PAGE = "1";
     }
 
     static class ApiResultKey {

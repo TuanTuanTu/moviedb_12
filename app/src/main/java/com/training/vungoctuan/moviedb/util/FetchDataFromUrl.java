@@ -36,7 +36,7 @@ public class FetchDataFromUrl extends AsyncTask<String, Void, List<Movie>> {
     @Override
     protected void onPostExecute(List<Movie> movies) {
         if (mCallback == null) return;
-        if (movies == null) {
+        if (movies == null || movies.size() == 0) {
             mCallback.onDataNotAvailable();
         } else {
             mCallback.onMoviesLoaded(movies);

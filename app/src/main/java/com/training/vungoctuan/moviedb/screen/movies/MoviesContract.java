@@ -11,6 +11,7 @@ import java.util.List;
 public interface MoviesContract {
     interface View {
         void onGetMoviesSuccess(List<Movie> movies);
+        void onGetMoviesFailed();
     }
 
     interface Presenter extends BasePresenter<View> {

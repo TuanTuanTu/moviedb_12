@@ -23,7 +23,7 @@ public class MovieRepository implements MovieDataSource.RemoteDataSource {
 
     @Override
     public void getMoviesByCategories(String categories, String language,
-                                      String page,
+                                      int page,
                                       MovieDataSource.LoadMoviesCallback callback) {
         mMovieRemoteDataSource.getMoviesByCategories(
             categories,

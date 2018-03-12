@@ -14,7 +14,7 @@ public interface MovieDataSource {
     }
 
     interface RemoteDataSource {
-        void getMoviesByCategories(String categories, String language, String page,
+        void getMoviesByCategories(String categories, String language, int page,
                                    LoadMoviesCallback callback);
         void getMoviesByUrl(String id, String url, LoadMoviesCallback callback);
     }
