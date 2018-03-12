@@ -1,5 +1,8 @@
 package com.training.vungoctuan.moviedb.screen.home;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BasePresenter;
@@ -16,6 +19,11 @@ public class HomeContract {
         void onGetUpcomingMoviesSuccess(List<Movie> movies);
         void onGetTopRateMoviesSuccess(List<Movie> movies);
         void onGetGenresSuccess(List<Genre> genres);
+        void onGetPopularMoviesFailed();
+        void onGetNowPlayingMoviesFailed();
+        void onGetUpcomingMoviesFailed();
+        void onGetTopRateMoviesFailed();
+        void onGetGenresMoviesFailed();
     }
 
     public interface Presenter extends BasePresenter<View> {

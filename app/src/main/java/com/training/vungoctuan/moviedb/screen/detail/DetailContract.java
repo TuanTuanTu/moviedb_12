@@ -15,6 +15,9 @@ public interface DetailContract {
         void onLoadProductionSuccess(List<Production> productions);
         void onLoadCreditSuccess(Credit credit);
         void onLoadTrailerSuccess(List<Trailer> trailers);
+        void onLoadProductionFailed();
+        void onLoadCreditFailed();
+        void onLoadTrailerFailed();
     }
 
     interface Presenter extends BasePresenter<View> {

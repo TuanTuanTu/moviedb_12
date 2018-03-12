@@ -17,6 +17,7 @@ import com.training.vungoctuan.moviedb.screen.BaseActivity;
 import com.training.vungoctuan.moviedb.screen.detail.DetailActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesByGenreActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesBySearchActivity;
+import com.training.vungoctuan.moviedb.util.EndlessRecyclerOnScrollListener;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private HomeGenresAdapter mHomeGenresAdapter;
     private ProgressBar mProgressBarPopular, mProgressBarNowPlaying,
         mProgressBarUpcoming, mProgressBarTopRate, mProgressBarGenres;
+    private EndlessRecyclerOnScrollListener mPopularOnScrollListener,
+        mNowPlayingOnScrollListener, mUpcomingOnScrollListener, mTopRateOnScrollListener;
 
     public static Intent getInstance(Context context) {
         return new Intent(context, HomeActivity.class);
@@ -81,6 +84,15 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mProgressBarPopular = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mPopularMoviesAdapter);
+        mPopularOnScrollListener = new EndlessRecyclerOnScrollListener(
+            new EndlessRecyclerOnScrollListener.LoadMoreMovies() {
+                @Override
+                public void loadMoreMovies() {
+                    mPresenter.loadPopularMovies();
+                    mProgressBarPopular.setVisibility(View.VISIBLE);
+                }
+            });
+        recyclerView.addOnScrollListener(mPopularOnScrollListener);
     }
 
     private void initLayoutNowPlaying() {
@@ -90,6 +102,15 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mProgressBarNowPlaying = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mNowPlayingMoviesAdapter);
+        mNowPlayingOnScrollListener = new EndlessRecyclerOnScrollListener(
+            new EndlessRecyclerOnScrollListener.LoadMoreMovies() {
+                @Override
+                public void loadMoreMovies() {
+                    mPresenter.loadNowPlayingMovies();
+                    mProgressBarNowPlaying.setVisibility(View.VISIBLE);
+                }
+            });
+        recyclerView.addOnScrollListener(mNowPlayingOnScrollListener);
     }
 
     private void initLayoutUpcoming() {
@@ -99,6 +120,15 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mProgressBarUpcoming = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mUpcomingMoviesAdapter);
+        mUpcomingOnScrollListener = new EndlessRecyclerOnScrollListener(
+            new EndlessRecyclerOnScrollListener.LoadMoreMovies() {
+                @Override
+                public void loadMoreMovies() {
+                    mPresenter.loadUpcomingMovies();
+                    mProgressBarUpcoming.setVisibility(View.VISIBLE);
+                }
+            });
+        recyclerView.addOnScrollListener(mUpcomingOnScrollListener);
     }
 
     private void initLayoutTopRate() {
@@ -108,6 +138,15 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mProgressBarTopRate = include.findViewById(R.id.progressbar_recycler);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mTopRateMoviesAdapter);
+        mTopRateOnScrollListener = new EndlessRecyclerOnScrollListener(
+            new EndlessRecyclerOnScrollListener.LoadMoreMovies() {
+                @Override
+                public void loadMoreMovies() {
+                    mPresenter.loadTopRateMovies();
+                    mProgressBarTopRate.setVisibility(View.VISIBLE);
+                }
+            });
+        recyclerView.addOnScrollListener(mTopRateOnScrollListener);
     }
 
     private void initLayoutGenres() {
@@ -154,24 +193,28 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void onGetPopularMoviesSuccess(List<Movie> movies) {
+        mPopularOnScrollListener.setLoadingStatus(false);
         mProgressBarPopular.setVisibility(View.GONE);
         mPopularMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetNowPlayingMoviesSuccess(List<Movie> movies) {
+        mNowPlayingOnScrollListener.setLoadingStatus(false);
         mProgressBarNowPlaying.setVisibility(View.GONE);
         mNowPlayingMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetUpcomingMoviesSuccess(List<Movie> movies) {
+        mUpcomingOnScrollListener.setLoadingStatus(false);
         mProgressBarUpcoming.setVisibility(View.GONE);
         mUpcomingMoviesAdapter.updateData(movies);
     }
 
     @Override
     public void onGetTopRateMoviesSuccess(List<Movie> movies) {
+        mTopRateOnScrollListener.setLoadingStatus(false);
         mProgressBarTopRate.setVisibility(View.GONE);
         mTopRateMoviesAdapter.updateData(movies);
     }
@@ -180,5 +223,25 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     public void onGetGenresSuccess(List<Genre> genres) {
         mProgressBarGenres.setVisibility(View.GONE);
         mHomeGenresAdapter.updateData(genres);
+    }
+
+    @Override
+    public void onGetPopularMoviesFailed() {
+    }
+
+    @Override
+    public void onGetNowPlayingMoviesFailed() {
+    }
+
+    @Override
+    public void onGetUpcomingMoviesFailed() {
+    }
+
+    @Override
+    public void onGetTopRateMoviesFailed() {
+    }
+
+    @Override
+    public void onGetGenresMoviesFailed() {
     }
 }

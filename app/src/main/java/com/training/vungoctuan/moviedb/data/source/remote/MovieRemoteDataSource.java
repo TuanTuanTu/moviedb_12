@@ -19,7 +19,7 @@ public class MovieRemoteDataSource implements MovieDataSource.RemoteDataSource {
     }
 
     @Override
-    public void getMoviesByCategories(String categories, String language, String page,
+    public void getMoviesByCategories(String categories, String language, int page,
                                       MovieDataSource.LoadMoviesCallback callback) {
         new FetchDataFromUrl(callback)
             .execute(

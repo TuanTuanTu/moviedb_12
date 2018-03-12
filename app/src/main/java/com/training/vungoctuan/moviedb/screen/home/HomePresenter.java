@@ -19,6 +19,10 @@ public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View mView;
     private MovieRepository mMovieRepository;
     private GenreRepository mGenreRepository;
+    private int mPopularPage = 1;
+    private int mNowPlayingPage = 1;
+    private int mUpcomingPage = 1;
+    private int mTopRatePage = 1;
 
     HomePresenter() {
         mMovieRepository =
@@ -45,17 +49,18 @@ public class HomePresenter implements HomeContract.Presenter {
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_POPULAR,
             Constant.ApiParameter.API_URL_LANGUAGE,
-            Constant.ApiParameter.API_URL_FIRST_PAGE,
+            mPopularPage,
             new MovieDataSource
                 .LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
+                    mPopularPage++;
                     mView.onGetPopularMoviesSuccess(movies);
                 }
 
-                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onGetPopularMoviesFailed();
                 }
             });
     }
@@ -65,16 +70,17 @@ public class HomePresenter implements HomeContract.Presenter {
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_NOW_PLAYING,
             Constant.ApiParameter.API_URL_LANGUAGE,
-            Constant.ApiParameter.API_URL_FIRST_PAGE,
+            mNowPlayingPage,
             new MovieDataSource.LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
+                    mNowPlayingPage++;
                     mView.onGetNowPlayingMoviesSuccess(movies);
                 }
 
-                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onGetNowPlayingMoviesFailed();
                 }
             });
     }
@@ -84,16 +90,17 @@ public class HomePresenter implements HomeContract.Presenter {
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_UPCOMING,
             Constant.ApiParameter.API_URL_LANGUAGE,
-            Constant.ApiParameter.API_URL_FIRST_PAGE,
+            mUpcomingPage,
             new MovieDataSource.LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
+                    mUpcomingPage++;
                     mView.onGetUpcomingMoviesSuccess(movies);
                 }
 
-                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onGetUpcomingMoviesFailed();
                 }
             });
     }
@@ -103,16 +110,17 @@ public class HomePresenter implements HomeContract.Presenter {
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_TOP_RATED,
             Constant.ApiParameter.API_URL_LANGUAGE,
-            Constant.ApiParameter.API_URL_FIRST_PAGE,
+            mTopRatePage,
             new MovieDataSource.LoadMoviesCallback() {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
+                    mTopRatePage++;
                     mView.onGetTopRateMoviesSuccess(movies);
                 }
 
-                // TODO: 3/10/18 callback
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onGetTopRateMoviesFailed();
                 }
             });
     }
@@ -125,9 +133,9 @@ public class HomePresenter implements HomeContract.Presenter {
                 mView.onGetGenresSuccess(genres);
             }
 
-            // TODO: 3/10/18 callback
             @Override
             public void onDataNotAvailable() {
+                mView.onGetGenresMoviesFailed();
             }
         });
     }

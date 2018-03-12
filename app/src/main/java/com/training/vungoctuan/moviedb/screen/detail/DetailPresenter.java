@@ -57,6 +57,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onLoadProductionFailed();
                 }
             });
     }
@@ -70,9 +71,9 @@ public class DetailPresenter implements DetailContract.Presenter {
                     mView.onLoadCreditSuccess(credits);
                 }
 
-                // TODO: 3/6/18 Show TextView to UI as "data not availble"
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onLoadCreditFailed();
                 }
             });
     }
@@ -86,9 +87,9 @@ public class DetailPresenter implements DetailContract.Presenter {
                     mView.onLoadTrailerSuccess(trailers);
                 }
 
-                // TODO: 3/9/18 Callback on load trailer
                 @Override
                 public void onDataNotAvailable() {
+                    mView.onLoadTrailerFailed();
                 }
             });
     }

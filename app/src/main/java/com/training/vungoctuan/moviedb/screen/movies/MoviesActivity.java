@@ -112,4 +112,11 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
         mSearchView.setVisibility(View.VISIBLE);
         mMoviesAdapter.updateData(movies);
     }
+
+    @Override
+    public void onGetMoviesFailed() {
+        mProgressBar.setVisibility(View.GONE);
+        mSearchView.setVisibility(View.VISIBLE);
+        setTitle(getString(R.string.title_no_data));
+    }
 }

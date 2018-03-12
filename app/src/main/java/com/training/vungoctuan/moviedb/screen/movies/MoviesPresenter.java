@@ -40,9 +40,9 @@ public class MoviesPresenter implements MoviesContract.Presenter {
                 mView.onGetMoviesSuccess(movies);
             }
 
-            // TODO: 3/7/18 Show textview to UI alert "No data" 
             @Override
             public void onDataNotAvailable() {
+                mView.onGetMoviesFailed();
             }
         });
     }

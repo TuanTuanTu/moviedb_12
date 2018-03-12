@@ -50,7 +50,6 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
 
     void updateData(List<Movie> movies) {
         if (movies == null) return;
-        mMovies.clear();
         mMovies.addAll(movies);
         notifyDataSetChanged();
     }
