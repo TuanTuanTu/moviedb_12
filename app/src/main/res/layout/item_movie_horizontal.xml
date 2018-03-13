@@ -70,15 +70,15 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_detail_star"/>
 
-        <ImageButton
+        <Button
             android:id="@+id/button_card_favourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/color_pink"
-            android:src="@drawable/ic_favorite_white_24dp"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:background="@drawable/ic_love_minus"
             app:layout_constraintBottom_toBottomOf="@id/text_card_rate"
             app:layout_constraintLeft_toRightOf="@id/image_detail_star"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/text_card_rate"/>
+            app:layout_constraintTop_toTopOf="@id/text_card_rate"
+            app:layout_constraintVertical_bias="1"/>
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
