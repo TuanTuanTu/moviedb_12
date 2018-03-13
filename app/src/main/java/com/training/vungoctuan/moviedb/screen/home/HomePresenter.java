@@ -6,6 +6,7 @@ import com.training.vungoctuan.moviedb.data.repository.GenreRepository;
 import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
 import com.training.vungoctuan.moviedb.data.source.GenreDataSource;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
+import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.GenreRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.training.vungoctuan.moviedb.util.Constant;
@@ -26,7 +27,9 @@ public class HomePresenter implements HomeContract.Presenter {
 
     HomePresenter() {
         mMovieRepository =
-            MovieRepository.getInstance(MovieRemoteDataSource.getInstance());
+            MovieRepository.getInstance(
+                MovieRemoteDataSource.getInstance(),
+                MovieLocalDataSource.getInstance());
         mGenreRepository =
             GenreRepository.getInstance(GenreRemoteDataSource.getInstance());
     }

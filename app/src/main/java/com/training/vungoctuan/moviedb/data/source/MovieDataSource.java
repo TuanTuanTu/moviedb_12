@@ -1,6 +1,7 @@
 package com.training.vungoctuan.moviedb.data.source;
 
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.source.local.MoviesDatabaseHelper;
 
 import java.util.List;
 
@@ -11,6 +12,12 @@ public interface MovieDataSource {
     interface LoadMoviesCallback {
         void onMoviesLoaded(List<Movie> movies);
         void onDataNotAvailable();
+    }
+
+    interface LocalDataSource {
+        void addMovieToLocal(Movie movie) throws Exception;
+        void deleteMovieFromLocal(Movie movie) throws Exception;
+        void getMoviesFromLocal(List<Movie> movies) throws Exception;
     }
 
     interface RemoteDataSource {

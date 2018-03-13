@@ -12,6 +12,9 @@ import android.widget.ProgressBar;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
+import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
+import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
 import com.training.vungoctuan.moviedb.screen.detail.DetailActivity;
 import com.training.vungoctuan.moviedb.util.Constant;
@@ -40,7 +43,7 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
-        mPresenter = new MoviesPresenter();
+        mPresenter = new MoviesPresenter(getMovieRepository());
         mPresenter.setView(this);
         mMoviesAdapter = new MoviesAdapter(this, new MoviesAdapter.LoadMoviesCallback() {
             @Override
@@ -52,6 +55,12 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
         initToolbar();
         initLayout();
         initSearchView();
+    }
+
+    private MovieRepository getMovieRepository() {
+        return MovieRepository.getInstance(
+            MovieRemoteDataSource.getInstance(),
+            MovieLocalDataSource.getInstance(this));
     }
 
     private void initToolbar() {

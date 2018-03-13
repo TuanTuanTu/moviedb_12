@@ -26,5 +26,6 @@
     <string name="title_results">Results: %s</string>
     <string name="title_results_genre">Genre: %s</string>
     <string name="toast_failed">Failed:</string>
+    <string name="title_no_data">No data</string>
 
 </resources>
