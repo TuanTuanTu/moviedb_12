@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
@@ -47,6 +48,16 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
             public void onItemClicked(Movie movie) {
                 startActivity(
                     DetailActivity.getInstance(getApplicationContext(), movie));
+            }
+        }, new MoviesAdapter.FavouriteCallback() {
+            @Override
+            public void onAddFavourite(Movie movie) {
+                mPresenter.addMovieToFavourite(movie);
+            }
+
+            @Override
+            public void onRemoveFavourite(Movie movie) {
+                mPresenter.deleteMovieFromFavourite(movie);
             }
         });
         initToolbar();
@@ -118,5 +129,37 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
         mProgressBar.setVisibility(View.GONE);
         mSearchView.setVisibility(View.VISIBLE);
         setTitle(getString(R.string.title_no_data));
+    }
+
+    @Override
+    public void onAddFavouriteSuccess(Movie movie) {
+        Toast.makeText(this,
+            String.format(getString(R.string.detail_add_favourite_success), movie.getTitle()),
+            Toast.LENGTH_SHORT).show();
+        movie.setFavourite(true);
+        mMoviesAdapter.updateSingleData(movie);
+    }
+
+    @Override
+    public void onAddFavouriteFailed() {
+        Toast.makeText(this,
+            R.string.detail_add_favourite_failed,
+            Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteFavouriteSuccess(Movie movie) {
+        Toast.makeText(this,
+            String.format(getString(R.string.detail_delete_movie_alert), movie.getTitle()),
+            Toast.LENGTH_SHORT).show();
+        movie.setFavourite(false);
+        mMoviesAdapter.updateSingleData(movie);
+    }
+
+    @Override
+    public void onDeleteFavouriteFailed() {
+        Toast.makeText(this,
+            R.string.detail_delete_movie_failed,
+            Toast.LENGTH_SHORT).show();
     }
 }
