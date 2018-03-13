@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by vungoctuan on 2/28/18.
  */
-public class Movie implements Parcelable{
+public class Movie implements Parcelable {
     private String mId;
     private String mTitle;
     private String mVoteAverage;
@@ -14,6 +14,7 @@ public class Movie implements Parcelable{
     private String mBackdropPath;
     private String mOverview;
     private String mReleaseDate;
+    private boolean mIsFavourite;
 
     public Movie() {
     }
@@ -26,6 +27,7 @@ public class Movie implements Parcelable{
         mBackdropPath = in.readString();
         mOverview = in.readString();
         mReleaseDate = in.readString();
+        mIsFavourite = in.readByte() != 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -96,6 +98,14 @@ public class Movie implements Parcelable{
         mReleaseDate = releaseDate;
     }
 
+    public boolean isFavourite() {
+        return mIsFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        mIsFavourite = favourite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -110,5 +120,6 @@ public class Movie implements Parcelable{
         parcel.writeString(mBackdropPath);
         parcel.writeString(mOverview);
         parcel.writeString(mReleaseDate);
+        parcel.writeByte((byte) (mIsFavourite ? 1 : 0));
     }
 }

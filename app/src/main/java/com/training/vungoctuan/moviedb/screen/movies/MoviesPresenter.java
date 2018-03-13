@@ -44,4 +44,13 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void getFavouriteMovie() {
+        List<Movie> movies = mMovieRepository.getMoviesFromLocal();
+        if (movies == null || movies.size() == 0)
+            mView.onGetMoviesFailed();
+        else
+            mView.onGetMoviesSuccess(movies);
+    }
 }

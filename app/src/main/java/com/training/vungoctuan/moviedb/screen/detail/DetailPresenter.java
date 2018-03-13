@@ -1,5 +1,6 @@
 package com.training.vungoctuan.moviedb.screen.detail;
 
+import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.model.Production;
 import com.training.vungoctuan.moviedb.data.model.Trailer;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
@@ -10,9 +11,7 @@ import com.training.vungoctuan.moviedb.data.repository.TrailerRepository;
 import com.training.vungoctuan.moviedb.data.source.CreditDataSource;
 import com.training.vungoctuan.moviedb.data.source.ProductionDataSource;
 import com.training.vungoctuan.moviedb.data.source.TrailerDataSource;
-import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.CreditRemoteDataSource;
-import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.ProductionRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.TrailerRemoteDataSource;
 
@@ -28,17 +27,14 @@ public class DetailPresenter implements DetailContract.Presenter {
     private TrailerRepository mTrailerRepository;
     private MovieRepository mMovieRepository;
 
-    DetailPresenter() {
+    DetailPresenter(MovieRepository movieRepository) {
         mProductionRepository = ProductionRepository
             .getInstance(ProductionRemoteDataSource.getInstance());
         mCreditRepository = CreditRepository
             .getInstance(CreditRemoteDataSource.getInstance());
         mTrailerRepository = TrailerRepository
             .getInstance(TrailerRemoteDataSource.getInstance());
-        mMovieRepository = MovieRepository.getInstance(
-            MovieRemoteDataSource.getInstance(),
-            MovieLocalDataSource.getInstance()
-        );
+        mMovieRepository = movieRepository;
     }
 
     @Override
@@ -100,5 +96,38 @@ public class DetailPresenter implements DetailContract.Presenter {
                     mView.onLoadTrailerFailed();
                 }
             });
+    }
+
+    @Override
+    public void addMovieToFavourite(Movie movie) {
+        try {
+            mMovieRepository.addMovieToLocal(movie);
+            mView.onAddFavouriteSuccess(movie);
+        } catch (Exception e) {
+            mView.onAddFavouriteFailed();
+        }
+    }
+
+    @Override
+    public void deleteMovieFromFavourite(Movie movie) {
+        try {
+            mMovieRepository.deleteMovieFromLocal(movie);
+            mView.onDeleteFavouriteSuccess(movie);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.onDeleteFavouriteFailed();
+        }
+    }
+
+    @Override
+    public boolean checkMovieFavouriteExisting(String movieId) {
+        try {
+            boolean isFavourite = mMovieRepository.isFavouriteMovie(movieId);
+            mView.isFavouriteMovie(isFavourite);
+            return isFavourite;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -27,5 +27,10 @@
     <string name="title_results_genre">Genre: %s</string>
     <string name="toast_failed">Failed:</string>
     <string name="title_no_data">No data</string>
+    <string name="title_favourite_movies">My Favourite Movies</string>
+    <string name="detail_delete_movie_alert">Delete %s From Favourite Success</string>
+    <string name="detail_delete_movie_failed">Remove Favourite Failed</string>
+    <string name="detail_add_favourite_failed">Add Favourite Failed</string>
+    <string name="detail_add_favourite_success">Add %s To Favourite Success</string>
 
 </resources>

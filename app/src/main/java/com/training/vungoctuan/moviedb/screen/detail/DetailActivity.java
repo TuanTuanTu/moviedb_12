@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Movie;
@@ -36,6 +37,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     View.OnClickListener {
     private DetailContract.Presenter mPresenter;
     private Button mButtonExpand, mButtonPlayTrailer;
+    private Button mButtonFavourite;
     private TextView mTextDetailOverview;
     private ProgressBar mProgressBarProduction, mProgressBarCast, mProgressBarCrew;
     private boolean mExpanded;
@@ -57,7 +59,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         mMovie = getIntent().getParcelableExtra(Constant.BUNDLE_MOVIE);
-        mPresenter = new DetailPresenter();
+        mPresenter = new DetailPresenter(getMovieRepository());
         mPresenter.setView(this);
         initToolbar();
         initButtonComponents();
@@ -68,6 +70,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         initLayoutCasts();
         initLayoutCrews();
         loadDataFromApi();
+        mPresenter.checkMovieFavouriteExisting(mMovie.getId());
     }
 
     private void loadDataFromApi() {
@@ -154,6 +157,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         mButtonExpand.setOnClickListener(this);
         mButtonPlayTrailer = findViewById(R.id.button_detail_play_trailer);
         mButtonPlayTrailer.setOnClickListener(this);
+        mButtonFavourite = findViewById(R.id.button_favourite);
+        mButtonFavourite.setOnClickListener(this);
     }
 
     private void initImageViewComponents() {
@@ -213,10 +218,17 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
             case R.id.button_detail_play_trailer:
                 loadTrailerByYoutubeApi();
                 break;
+            case R.id.button_favourite:
+                if (mPresenter.checkMovieFavouriteExisting(mMovie.getId())) {
+                    mPresenter.deleteMovieFromFavourite(mMovie);
+                } else {
+                    mPresenter.addMovieToFavourite(mMovie);
+                }
+                break;
         }
     }
 
-    void loadTrailerByYoutubeApi() {
+    private void loadTrailerByYoutubeApi() {
         startActivity(YoutubeActivity
             .getInstance(getApplicationContext(), mTrailers.get(0)));
     }
@@ -251,5 +263,43 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     @Override
     public void onLoadTrailerFailed() {
+    }
+
+    @Override
+    public void onAddFavouriteSuccess(Movie movie) {
+        Toast.makeText(this,
+            String.format(getString(R.string.detail_add_favourite_success), movie.getTitle()),
+            Toast.LENGTH_SHORT).show();
+        mButtonFavourite.setBackgroundResource(R.drawable.ic_love_plus);
+    }
+
+    @Override
+    public void onAddFavouriteFailed() {
+        Toast.makeText(this,
+            R.string.detail_add_favourite_failed,
+            Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteFavouriteSuccess(Movie movie) {
+        Toast.makeText(this,
+            String.format(getString(R.string.detail_delete_movie_alert), movie.getTitle()),
+            Toast.LENGTH_SHORT).show();
+        mButtonFavourite.setBackgroundResource(R.drawable.ic_love_minus);
+    }
+
+    @Override
+    public void onDeleteFavouriteFailed() {
+        Toast.makeText(this,
+            R.string.detail_delete_movie_failed,
+            Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void isFavouriteMovie(boolean isFavourite) {
+        if (isFavourite)
+            mButtonFavourite.setBackgroundResource(R.drawable.ic_love_plus);
+        else
+            mButtonFavourite.setBackgroundResource(R.drawable.ic_love_minus);
     }
 }

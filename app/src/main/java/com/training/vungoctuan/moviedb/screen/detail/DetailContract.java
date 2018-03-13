@@ -1,5 +1,6 @@
 package com.training.vungoctuan.moviedb.screen.detail;
 
+import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.model.Production;
 import com.training.vungoctuan.moviedb.data.model.Trailer;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
@@ -18,11 +19,19 @@ public interface DetailContract {
         void onLoadProductionFailed();
         void onLoadCreditFailed();
         void onLoadTrailerFailed();
+        void onAddFavouriteSuccess(Movie movie);
+        void onAddFavouriteFailed();
+        void onDeleteFavouriteSuccess(Movie movie);
+        void onDeleteFavouriteFailed();
+        void isFavouriteMovie(boolean isFavourite);
     }
 
     interface Presenter extends BasePresenter<View> {
         void loadProductionsByMovieId(String movieId);
         void loadCreditByMovieId(String movieId);
         void loadTrailerByMovieId(String movieId);
+        void addMovieToFavourite(Movie movie);
+        void deleteMovieFromFavourite(Movie movie);
+        boolean checkMovieFavouriteExisting(String movieId);
     }
 }

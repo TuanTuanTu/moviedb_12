@@ -16,5 +16,6 @@ public interface MoviesContract {
 
     interface Presenter extends BasePresenter<View> {
         void loadMovieFromApi(String url, String id);
+        void getFavouriteMovie();
     }
 }

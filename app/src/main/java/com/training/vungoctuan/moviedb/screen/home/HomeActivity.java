@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -45,9 +46,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        mPresenter = new HomePresenter();
-        mPresenter.setView(this);
         MoviesDatabaseHelper.getInstance(this);
+        mPresenter = new HomePresenter(getMovieRepository());
+        mPresenter.setView(this);
         initMoviesAdapters();
         initLayoutPopular();
         initLayoutNowPlaying();
@@ -180,7 +181,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 return false;
             }
         });
-        ImageButton button = include.findViewById(R.id.button_favourite);
+        Button button = include.findViewById(R.id.button_favourite);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
