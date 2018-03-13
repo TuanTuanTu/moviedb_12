@@ -43,13 +43,17 @@ public class MoviesDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public List<Movie> getAllMovies() throws Exception {
+    public List<Movie> getAllMovies() {
         List<Movie> movies = new ArrayList<>();
-        String selectAllQuery =
-            String.format(MoviesDataBase.QUERY_SELECT_ALL_FROM,
-                MoviesDataBase.TABLE_FAVOURITE_MOVIES);
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectAllQuery, null);
+        Cursor cursor = db.query(
+            MoviesDataBase.TABLE_FAVOURITE_MOVIES,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
         try {
             if (cursor.moveToNext()) {
                 do {
@@ -71,10 +75,10 @@ public class MoviesDatabaseHelper extends SQLiteOpenHelper {
                     movies.add(movie);
                 } while (cursor.moveToNext());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
+            closeCursor(cursor);
             db.close();
         }
         return movies;
@@ -104,12 +108,40 @@ public class MoviesDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
-            String selection = MoviesDataBase.KEY_MOVIES_ID + MoviesDataBase.QUERY_WHERE;
+            String selection = MoviesDataBase.KEY_MOVIES_ID + MoviesDataBase.QUERY_SELECTION;
             String[] selectionArgs = {movie.getId()};
-            db.delete(MoviesDataBase.TABLE_FAVOURITE_MOVIES, selection, selectionArgs);
+            db.delete(
+                MoviesDataBase.TABLE_FAVOURITE_MOVIES,
+                selection,
+                selectionArgs);
+            db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
             db.close();
+        }
+    }
+
+    public boolean checkExistMovie(String id) throws Exception {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(
+            MoviesDataBase.TABLE_FAVOURITE_MOVIES,
+            null,
+            MoviesDataBase.KEY_MOVIES_ID + MoviesDataBase.QUERY_SELECTION,
+            new String[]{id},
+            null,
+            null,
+            null);
+        try {
+            return cursor.moveToFirst();
+        } finally {
+            closeCursor(cursor);
+            db.close();
+        }
+    }
+
+    private void closeCursor(Cursor cursor) {
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
         }
     }
 }

@@ -30,7 +30,6 @@ public class Constant {
     static final int URL_REQUEST_TIMEOUT = 10000;
     static final int URL_CONNECT_TIMEOUT = 15000;
     public static final int SPLASH_TIMEOUT = 500;
-    public static final int LOOP_REQUEST = 3000;
     public static final int TEXT_OVERVIEW_MIN_LINES = 2;
     public static final int TEXT_OVERVIEW_MAX_LINES = 25;
     public static final String BUNDLE_MOVIE = "BUNDLE_MOVIE";
@@ -150,7 +149,6 @@ public class Constant {
             KEY_MOVIES_RELEASE_DATE + " TEXT" +
             ")";
         public static final String QUERY_DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS ";
-        public static final String QUERY_SELECT_ALL_FROM = "SELECT * FROM %s";
-        public static final String QUERY_WHERE = " WHERE ?";
+        public static final String QUERY_SELECTION = " = ?";
     }
 }

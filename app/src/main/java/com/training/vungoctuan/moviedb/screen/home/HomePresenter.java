@@ -25,11 +25,8 @@ public class HomePresenter implements HomeContract.Presenter {
     private int mUpcomingPage = 1;
     private int mTopRatePage = 1;
 
-    HomePresenter() {
-        mMovieRepository =
-            MovieRepository.getInstance(
-                MovieRemoteDataSource.getInstance(),
-                MovieLocalDataSource.getInstance());
+    HomePresenter(MovieRepository movieRepository) {
+        mMovieRepository = movieRepository;
         mGenreRepository =
             GenreRepository.getInstance(GenreRemoteDataSource.getInstance());
     }

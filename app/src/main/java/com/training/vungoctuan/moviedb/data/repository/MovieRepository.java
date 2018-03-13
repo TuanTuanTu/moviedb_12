@@ -3,7 +3,6 @@ package com.training.vungoctuan.moviedb.data.repository;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
 import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
-import com.training.vungoctuan.moviedb.data.source.local.MoviesDatabaseHelper;
 import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 
 import java.util.List;
@@ -59,7 +58,12 @@ public class MovieRepository implements MovieDataSource.RemoteDataSource,
     }
 
     @Override
-    public void getMoviesFromLocal(List<Movie> movies) throws Exception {
-        mMovieLocalDataSource.getMoviesFromLocal(movies);
+    public List<Movie> getMoviesFromLocal() {
+        return mMovieLocalDataSource.getMoviesFromLocal();
+    }
+
+    @Override
+    public boolean isFavouriteMovie(String id) throws Exception {
+        return mMovieLocalDataSource.isFavouriteMovie(id);
     }
 }

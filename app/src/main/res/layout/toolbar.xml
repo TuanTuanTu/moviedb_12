@@ -27,11 +27,11 @@
         app:layout_constraintRight_toRightOf="@id/toolbar"
         app:layout_constraintTop_toTopOf="@id/toolbar"/>
 
-    <ImageButton
+    <Button
         android:id="@+id/button_favourite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_home_favourite"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:background="@drawable/ic_love_plus"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintLeft_toLeftOf="@id/toolbar"

@@ -36,7 +36,12 @@ public class MovieLocalDataSource implements MovieDataSource.LocalDataSource {
     }
 
     @Override
-    public void getMoviesFromLocal(List<Movie> movies) throws Exception {
-        movies.addAll(mDatabase.getAllMovies());
+    public List<Movie> getMoviesFromLocal() {
+        return mDatabase.getAllMovies();
+    }
+
+    @Override
+    public boolean isFavouriteMovie(String movieId) throws Exception {
+        return mDatabase.checkExistMovie(movieId);
     }
 }
