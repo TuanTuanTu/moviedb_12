@@ -124,4 +124,33 @@ public class Constant {
         static final String API_KEY_GENRES_ID = "id";
         static final String API_KEY_GENRES_NAME = "name";
     }
+
+    public static class MoviesDataBase {
+        public static final String DATABASE_NAME = "moviesDatabase";
+        public static final int DATABASE_VERSION = 1;
+        //Table
+        public static final String TABLE_FAVOURITE_MOVIES = "favouriteMovies";
+        //Columns
+        public static final String KEY_MOVIES_ID = "id";
+        public static final String KEY_MOVIES_TITLE = "title";
+        public static final String KEY_MOVIES_VOTE_AVERAGE = "voteAverage";
+        public static final String KEY_MOVIES_POSTER_PATH = "posterPath";
+        public static final String KEY_MOVIES_BACKDROP_PATH = "backdropPath";
+        public static final String KEY_MOVIES_OVERVIEW = "overview";
+        public static final String KEY_MOVIES_RELEASE_DATE = "releaseDate";
+        //Query
+        public static final String QUERY_CREATE_MOVIES = "CREATE TABLE " + TABLE_FAVOURITE_MOVIES +
+            "(" +
+            KEY_MOVIES_ID + " TEXT," +
+            KEY_MOVIES_TITLE + " TEXT," +
+            KEY_MOVIES_VOTE_AVERAGE + " TEXT," +
+            KEY_MOVIES_POSTER_PATH + " TEXT," +
+            KEY_MOVIES_BACKDROP_PATH + " TEXT," +
+            KEY_MOVIES_OVERVIEW + " TEXT," +
+            KEY_MOVIES_RELEASE_DATE + " TEXT" +
+            ")";
+        public static final String QUERY_DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS ";
+        public static final String QUERY_SELECT_ALL_FROM = "SELECT * FROM %s";
+        public static final String QUERY_WHERE = " WHERE ?";
+    }
 }

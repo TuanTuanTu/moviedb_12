@@ -4,12 +4,15 @@ import com.training.vungoctuan.moviedb.data.model.Production;
 import com.training.vungoctuan.moviedb.data.model.Trailer;
 import com.training.vungoctuan.moviedb.data.model.credit.Credit;
 import com.training.vungoctuan.moviedb.data.repository.CreditRepository;
+import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
 import com.training.vungoctuan.moviedb.data.repository.ProductionRepository;
 import com.training.vungoctuan.moviedb.data.repository.TrailerRepository;
 import com.training.vungoctuan.moviedb.data.source.CreditDataSource;
 import com.training.vungoctuan.moviedb.data.source.ProductionDataSource;
 import com.training.vungoctuan.moviedb.data.source.TrailerDataSource;
+import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.CreditRemoteDataSource;
+import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.ProductionRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.TrailerRemoteDataSource;
 
@@ -23,6 +26,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     private ProductionRepository mProductionRepository;
     private CreditRepository mCreditRepository;
     private TrailerRepository mTrailerRepository;
+    private MovieRepository mMovieRepository;
 
     DetailPresenter() {
         mProductionRepository = ProductionRepository
@@ -31,6 +35,10 @@ public class DetailPresenter implements DetailContract.Presenter {
             .getInstance(CreditRemoteDataSource.getInstance());
         mTrailerRepository = TrailerRepository
             .getInstance(TrailerRemoteDataSource.getInstance());
+        mMovieRepository = MovieRepository.getInstance(
+            MovieRemoteDataSource.getInstance(),
+            MovieLocalDataSource.getInstance()
+        );
     }
 
     @Override

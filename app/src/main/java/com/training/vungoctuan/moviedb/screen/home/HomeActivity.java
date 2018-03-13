@@ -7,14 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.source.local.MoviesDatabaseHelper;
 import com.training.vungoctuan.moviedb.screen.BaseActivity;
 import com.training.vungoctuan.moviedb.screen.detail.DetailActivity;
+import com.training.vungoctuan.moviedb.screen.movies.MoviesByFavourite;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesByGenreActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesBySearchActivity;
 import com.training.vungoctuan.moviedb.util.EndlessRecyclerOnScrollListener;
@@ -44,13 +47,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setContentView(R.layout.activity_home);
         mPresenter = new HomePresenter();
         mPresenter.setView(this);
+        MoviesDatabaseHelper.getInstance(this);
         initMoviesAdapters();
         initLayoutPopular();
         initLayoutNowPlaying();
         initLayoutUpcoming();
         initLayoutTopRate();
         initLayoutGenres();
-        initSearchView();
+        initToolbar();
         loadMovies();
     }
 
@@ -158,7 +162,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         recyclerView.setAdapter(mHomeGenresAdapter);
     }
 
-    private void initSearchView() {
+    private void initToolbar() {
         View include = findViewById(R.id.toolbar);
         final SearchView searchView = include.findViewById(R.id.search_home);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -174,6 +178,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             @Override
             public boolean onQueryTextChange(String query) {
                 return false;
+            }
+        });
+        ImageButton button = include.findViewById(R.id.button_favourite);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(MoviesByFavourite.getInstance(getApplicationContext()));
             }
         });
     }

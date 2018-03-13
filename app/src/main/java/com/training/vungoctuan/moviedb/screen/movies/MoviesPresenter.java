@@ -3,7 +3,6 @@ package com.training.vungoctuan.moviedb.screen.movies;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
-import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 
 import java.util.List;
 
@@ -14,9 +13,8 @@ public class MoviesPresenter implements MoviesContract.Presenter {
     private MoviesContract.View mView;
     private MovieRepository mMovieRepository;
 
-    MoviesPresenter() {
-        mMovieRepository =
-            MovieRepository.getInstance(MovieRemoteDataSource.getInstance());
+    MoviesPresenter(MovieRepository movieRepository) {
+        mMovieRepository = movieRepository;
     }
 
     @Override
