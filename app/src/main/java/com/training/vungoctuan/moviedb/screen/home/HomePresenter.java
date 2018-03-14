@@ -6,9 +6,7 @@ import com.training.vungoctuan.moviedb.data.repository.GenreRepository;
 import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
 import com.training.vungoctuan.moviedb.data.source.GenreDataSource;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
-import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.GenreRemoteDataSource;
-import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.training.vungoctuan.moviedb.util.Constant;
 
 import java.util.List;
@@ -24,6 +22,8 @@ public class HomePresenter implements HomeContract.Presenter {
     private int mNowPlayingPage = 1;
     private int mUpcomingPage = 1;
     private int mTopRatePage = 1;
+    private boolean mIsPopularSuccess, mIsNowPlayingSuccess, mIsUpcomingSuccess,
+        mIsTopRateSuccess, mIsGenresSuccess;
 
     HomePresenter(MovieRepository movieRepository) {
         mMovieRepository = movieRepository;
@@ -46,6 +46,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadPopularMovies() {
+        mIsPopularSuccess = false;
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_POPULAR,
             Constant.ApiParameter.API_URL_LANGUAGE,
@@ -55,6 +56,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
                     mPopularPage++;
+                    mIsPopularSuccess = true;
                     mView.onGetPopularMoviesSuccess(movies);
                 }
 
@@ -67,6 +69,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadNowPlayingMovies() {
+        mIsNowPlayingSuccess = false;
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_NOW_PLAYING,
             Constant.ApiParameter.API_URL_LANGUAGE,
@@ -75,6 +78,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
                     mNowPlayingPage++;
+                    mIsNowPlayingSuccess = true;
                     mView.onGetNowPlayingMoviesSuccess(movies);
                 }
 
@@ -87,6 +91,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadUpcomingMovies() {
+        mIsUpcomingSuccess = false;
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_UPCOMING,
             Constant.ApiParameter.API_URL_LANGUAGE,
@@ -95,6 +100,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
                     mUpcomingPage++;
+                    mIsUpcomingSuccess = true;
                     mView.onGetUpcomingMoviesSuccess(movies);
                 }
 
@@ -107,6 +113,7 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadTopRateMovies() {
+        mIsTopRateSuccess = false;
         mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_TOP_RATED,
             Constant.ApiParameter.API_URL_LANGUAGE,
@@ -115,6 +122,7 @@ public class HomePresenter implements HomeContract.Presenter {
                 @Override
                 public void onMoviesLoaded(List<Movie> movies) {
                     mTopRatePage++;
+                    mIsTopRateSuccess = true;
                     mView.onGetTopRateMoviesSuccess(movies);
                 }
 
@@ -127,9 +135,11 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void loadGenresMovies() {
+        mIsGenresSuccess = false;
         mGenreRepository.loadGenres(new GenreDataSource.LoadGenresCallback() {
             @Override
             public void onGenresLoaded(List<Genre> genres) {
+                mIsGenresSuccess = true;
                 mView.onGetGenresSuccess(genres);
             }
 
@@ -138,5 +148,25 @@ public class HomePresenter implements HomeContract.Presenter {
                 mView.onGetGenresMoviesFailed();
             }
         });
+    }
+
+    //Checking if network available after reconnect, keep reload data
+    @Override
+    public void loadAfterNetworkChange() {
+        if (!mIsPopularSuccess) {
+            loadPopularMovies();
+        }
+        if (!mIsNowPlayingSuccess) {
+            loadNowPlayingMovies();
+        }
+        if (!mIsTopRateSuccess) {
+            loadTopRateMovies();
+        }
+        if (!mIsUpcomingSuccess) {
+            loadUpcomingMovies();
+        }
+        if (!mIsGenresSuccess) {
+            loadGenresMovies();
+        }
     }
 }

@@ -26,6 +26,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     private CreditRepository mCreditRepository;
     private TrailerRepository mTrailerRepository;
     private MovieRepository mMovieRepository;
+    private boolean mIsProductionSuccess, mIsCreditSuccess, mIsTralerSuccess;
 
     DetailPresenter(MovieRepository movieRepository) {
         mProductionRepository = ProductionRepository
@@ -52,10 +53,12 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadProductionsByMovieId(String movieId) {
+        mIsProductionSuccess = false;
         mProductionRepository.getProductionByMovieId(movieId,
             new ProductionDataSource.LoadProductionsCallback() {
                 @Override
                 public void onProductionsLoaded(List<Production> productions) {
+                    mIsProductionSuccess = true;
                     mView.onLoadProductionSuccess(productions);
                 }
 
@@ -68,10 +71,12 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadCreditByMovieId(String movieId) {
+        mIsCreditSuccess = false;
         mCreditRepository.getCreditByMovieId(movieId,
             new CreditDataSource.LoadProductionsCallback() {
                 @Override
                 public void onCreditLoaded(Credit credits) {
+                    mIsCreditSuccess = true;
                     mView.onLoadCreditSuccess(credits);
                 }
 
@@ -84,10 +89,12 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadTrailerByMovieId(String movieId) {
+        mIsTralerSuccess = false;
         mTrailerRepository.getTrailerByMovieId(movieId,
             new TrailerDataSource.LoadTrailersCallback() {
                 @Override
                 public void onTrailersLoaded(List<Trailer> trailers) {
+                    mIsTralerSuccess = true;
                     mView.onLoadTrailerSuccess(trailers);
                 }
 
@@ -128,6 +135,19 @@ public class DetailPresenter implements DetailContract.Presenter {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public void loadAfterNetworkChange(String movieId) {
+        if(!mIsTralerSuccess){
+            loadTrailerByMovieId(movieId);
+        }
+        if(!mIsCreditSuccess){
+            loadCreditByMovieId(movieId);
+        }
+        if(!mIsProductionSuccess){
+            loadProductionsByMovieId(movieId);
         }
     }
 }
