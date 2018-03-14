@@ -72,8 +72,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         initLayoutCasts();
         initLayoutCrews();
         loadDataFromApi();
-        mPresenter.checkMovieFavouriteExisting(mMovie.getId());
         initNetworkBroadcast();
+        mPresenter.checkFavouriteMovie(mMovie);
     }
 
     private void loadDataFromApi() {
@@ -222,7 +222,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
                 loadTrailerByYoutubeApi();
                 break;
             case R.id.button_favourite:
-                if (mPresenter.checkMovieFavouriteExisting(mMovie.getId())) {
+                if (mMovie.isFavourite()) {
                     mPresenter.deleteMovieFromFavourite(mMovie);
                 } else {
                     mPresenter.addMovieToFavourite(mMovie);
@@ -292,6 +292,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     @Override
     public void onAddFavouriteSuccess(Movie movie) {
+        mMovie.setFavourite(true);
         Toast.makeText(this,
             String.format(getString(R.string.detail_add_favourite_success), movie.getTitle()),
             Toast.LENGTH_SHORT).show();
@@ -307,6 +308,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
 
     @Override
     public void onDeleteFavouriteSuccess(Movie movie) {
+        mMovie.setFavourite(false);
         Toast.makeText(this,
             String.format(getString(R.string.detail_delete_movie_alert), movie.getTitle()),
             Toast.LENGTH_SHORT).show();
@@ -321,8 +323,19 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     }
 
     @Override
-    public void isFavouriteMovie(boolean isFavourite) {
-        if (isFavourite)
+    public void onCheckFavouriteSuccess(Movie movie) {
+        mMovie.setFavourite(true);
+        checkMovieFavouriteStatus();
+    }
+
+    @Override
+    public void onCheckFavouriteFailed() {
+        mMovie.setFavourite(false);
+        checkMovieFavouriteStatus();
+    }
+
+    private void checkMovieFavouriteStatus() {
+        if (mMovie.isFavourite())
             mButtonFavourite.setBackgroundResource(R.drawable.ic_love_plus);
         else
             mButtonFavourite.setBackgroundResource(R.drawable.ic_love_minus);

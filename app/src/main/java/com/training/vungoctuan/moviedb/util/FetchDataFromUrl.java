@@ -4,10 +4,8 @@ import android.os.AsyncTask;
 
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
+import com.training.vungoctuan.moviedb.data.source.local.MoviesDatabaseHelper;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,11 +21,15 @@ public class FetchDataFromUrl extends AsyncTask<String, Void, List<Movie>> {
     @Override
     protected List<Movie> doInBackground(String... strings) {
         try {
-            return RequestAPIUtils
+            List<Movie> movies = RequestAPIUtils
                 .parseJsonToMovies(RequestAPIUtils.getJsonStringFromUrl(strings[0]));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            for (int i = 0; i < movies.size(); i++) {
+                if (MoviesDatabaseHelper.getInstance().checkExistMovie(movies.get(i).getId())) {
+                    movies.get(i).setFavourite(true);
+                }
+            }
+            return movies;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

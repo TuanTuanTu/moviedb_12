@@ -14,6 +14,9 @@ import com.training.vungoctuan.moviedb.data.source.TrailerDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.CreditRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.ProductionRemoteDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.TrailerRemoteDataSource;
+import com.training.vungoctuan.moviedb.util.localtask.TaskAddFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskCheckFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskDeleteFavourite;
 
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     private CreditRepository mCreditRepository;
     private TrailerRepository mTrailerRepository;
     private MovieRepository mMovieRepository;
-    private boolean mIsProductionSuccess, mIsCreditSuccess, mIsTralerSuccess;
+    private boolean mIsProductionSuccess, mIsCreditSuccess, mIsTrailerSuccess;
 
     DetailPresenter(MovieRepository movieRepository) {
         mProductionRepository = ProductionRepository
@@ -89,12 +92,12 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadTrailerByMovieId(String movieId) {
-        mIsTralerSuccess = false;
+        mIsTrailerSuccess = false;
         mTrailerRepository.getTrailerByMovieId(movieId,
             new TrailerDataSource.LoadTrailersCallback() {
                 @Override
                 public void onTrailersLoaded(List<Trailer> trailers) {
-                    mIsTralerSuccess = true;
+                    mIsTrailerSuccess = true;
                     mView.onLoadTrailerSuccess(trailers);
                 }
 
@@ -106,48 +109,61 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void addMovieToFavourite(Movie movie) {
-        try {
-            mMovieRepository.addMovieToLocal(movie);
-            mView.onAddFavouriteSuccess(movie);
-        } catch (Exception e) {
-            mView.onAddFavouriteFailed();
-        }
+    public void addMovieToFavourite(final Movie movie) {
+        mMovieRepository.addMovieToLocal(movie, new TaskAddFavourite.AddFavouriteCallback() {
+            @Override
+            public void onAddSuccess() {
+                mView.onAddFavouriteSuccess(movie);
+            }
+
+            @Override
+            public void onAddFailed() {
+                mView.onAddFavouriteFailed();
+            }
+        });
     }
 
     @Override
-    public void deleteMovieFromFavourite(Movie movie) {
-        try {
-            mMovieRepository.deleteMovieFromLocal(movie);
-            mView.onDeleteFavouriteSuccess(movie);
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.onDeleteFavouriteFailed();
-        }
-    }
+    public void deleteMovieFromFavourite(final Movie movie) {
+        mMovieRepository.deleteMovieFromLocal(movie,
+            new TaskDeleteFavourite.DeleteFavouriteCallback() {
+                @Override
+                public void onDeleteSuccess() {
+                    mView.onDeleteFavouriteSuccess(movie);
+                }
 
-    @Override
-    public boolean checkMovieFavouriteExisting(String movieId) {
-        try {
-            boolean isFavourite = mMovieRepository.isFavouriteMovie(movieId);
-            mView.isFavouriteMovie(isFavourite);
-            return isFavourite;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+                @Override
+                public void onDeleteFailed() {
+                    mView.onDeleteFavouriteFailed();
+                }
+            });
     }
 
     @Override
     public void loadAfterNetworkChange(String movieId) {
-        if(!mIsTralerSuccess){
+        if (!mIsTrailerSuccess) {
             loadTrailerByMovieId(movieId);
         }
-        if(!mIsCreditSuccess){
+        if (!mIsCreditSuccess) {
             loadCreditByMovieId(movieId);
         }
-        if(!mIsProductionSuccess){
+        if (!mIsProductionSuccess) {
             loadProductionsByMovieId(movieId);
         }
+    }
+
+    @Override
+    public void checkFavouriteMovie(Movie movie) {
+        mMovieRepository.checkFavouriteMovie(movie, new TaskCheckFavourite.Callback() {
+            @Override
+            public void moviesExisting(Movie movie) {
+                mView.onCheckFavouriteSuccess(movie);
+            }
+
+            @Override
+            public void moviesNotExisting() {
+                mView.onCheckFavouriteFailed();
+            }
+        });
     }
 }

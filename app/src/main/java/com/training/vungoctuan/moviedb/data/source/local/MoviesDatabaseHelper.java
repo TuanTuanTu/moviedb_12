@@ -18,10 +18,14 @@ import java.util.List;
 public class MoviesDatabaseHelper extends SQLiteOpenHelper {
     private static MoviesDatabaseHelper sInstance;
 
-    public static MoviesDatabaseHelper getInstance(Context context) {
+    public static MoviesDatabaseHelper initialize(Context context) {
         if (sInstance == null) {
             sInstance = new MoviesDatabaseHelper(context);
         }
+        return sInstance;
+    }
+
+    public static MoviesDatabaseHelper getInstance() {
         return sInstance;
     }
 

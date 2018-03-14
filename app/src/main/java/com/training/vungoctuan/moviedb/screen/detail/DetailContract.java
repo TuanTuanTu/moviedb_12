@@ -23,7 +23,8 @@ public interface DetailContract {
         void onAddFavouriteFailed();
         void onDeleteFavouriteSuccess(Movie movie);
         void onDeleteFavouriteFailed();
-        void isFavouriteMovie(boolean isFavourite);
+        void onCheckFavouriteSuccess(Movie movie);
+        void onCheckFavouriteFailed();
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -32,7 +33,7 @@ public interface DetailContract {
         void loadTrailerByMovieId(String movieId);
         void addMovieToFavourite(Movie movie);
         void deleteMovieFromFavourite(Movie movie);
-        boolean checkMovieFavouriteExisting(String movieId);
         void loadAfterNetworkChange(String movieId);
+        void checkFavouriteMovie(Movie movie);
     }
 }

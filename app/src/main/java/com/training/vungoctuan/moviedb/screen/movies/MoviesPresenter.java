@@ -3,6 +3,8 @@ package com.training.vungoctuan.moviedb.screen.movies;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
+import com.training.vungoctuan.moviedb.util.localtask.TaskAddFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskDeleteFavourite;
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         mMovieRepository.getMoviesByUrl(id, url, new MovieDataSource.LoadMoviesCallback() {
             @Override
             public void onMoviesLoaded(List<Movie> movies) {
-                mView.onGetMoviesSuccess(initFavouriteMovieStatus(movies));
+                mView.onGetMoviesSuccess(movies);
             }
 
             @Override
@@ -47,44 +49,47 @@ public class MoviesPresenter implements MoviesContract.Presenter {
 
     @Override
     public void getFavouriteMovie() {
-        List<Movie> movies = mMovieRepository.getMoviesFromLocal();
-        if (movies == null || movies.size() == 0)
-            mView.onGetMoviesFailed();
-        else
-            mView.onGetMoviesSuccess(initFavouriteMovieStatus(movies));
-    }
-
-    @Override
-    public void addMovieToFavourite(Movie movie) {
-        try {
-            mMovieRepository.addMovieToLocal(movie);
-            mView.onAddFavouriteSuccess(movie);
-        } catch (Exception e) {
-            mView.onAddFavouriteFailed();
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deleteMovieFromFavourite(Movie movie) {
-        try {
-            mMovieRepository.deleteMovieFromLocal(movie);
-            mView.onDeleteFavouriteSuccess(movie);
-        } catch (Exception e) {
-            mView.onDeleteFavouriteFailed();
-            e.printStackTrace();
-        }
-    }
-
-    private List<Movie> initFavouriteMovieStatus(List<Movie> movies) {
-        for (int i = 0; i < movies.size(); i++) {
-            try {
-                movies.get(i)
-                    .setFavourite(mMovieRepository.isFavouriteMovie(movies.get(i).getId()));
-            } catch (Exception e) {
-                e.printStackTrace();
+        mMovieRepository.getMoviesFromLocal(new MovieDataSource.LoadMoviesCallback() {
+            @Override
+            public void onMoviesLoaded(List<Movie> movies) {
+                mView.onGetMoviesSuccess(movies);
             }
-        }
-        return movies;
+
+            @Override
+            public void onDataNotAvailable() {
+                mView.onGetMoviesFailed();
+            }
+        });
+    }
+
+    @Override
+    public void addMovieToFavourite(final Movie movie) {
+        mMovieRepository.addMovieToLocal(movie, new TaskAddFavourite.AddFavouriteCallback() {
+            @Override
+            public void onAddSuccess() {
+                mView.onAddFavouriteSuccess(movie);
+            }
+
+            @Override
+            public void onAddFailed() {
+                mView.onAddFavouriteFailed();
+            }
+        });
+    }
+
+    @Override
+    public void deleteMovieFromFavourite(final Movie movie) {
+        mMovieRepository.deleteMovieFromLocal(movie,
+            new TaskDeleteFavourite.DeleteFavouriteCallback() {
+                @Override
+                public void onDeleteSuccess() {
+                    mView.onDeleteFavouriteSuccess(movie);
+                }
+
+                @Override
+                public void onDeleteFailed() {
+                    mView.onDeleteFavouriteFailed();
+                }
+            });
     }
 }

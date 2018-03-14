@@ -48,7 +48,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        MoviesDatabaseHelper.getInstance(this);
+        MoviesDatabaseHelper.initialize(this);
         mPresenter = new HomePresenter(getMovieRepository());
         mPresenter.setView(this);
         initMoviesAdapters();

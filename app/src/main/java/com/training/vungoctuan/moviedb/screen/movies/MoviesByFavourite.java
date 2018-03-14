@@ -12,7 +12,9 @@ import com.training.vungoctuan.moviedb.R;
  */
 public class MoviesByFavourite extends MoviesActivity {
     public static Intent getInstance(Context context) {
-        return new Intent(context, MoviesByFavourite.class);
+        Intent intent = new Intent(context, MoviesByFavourite.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
     }
 
     @Override

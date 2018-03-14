@@ -1,6 +1,9 @@
 package com.training.vungoctuan.moviedb.data.source;
 
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.util.localtask.TaskAddFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskCheckFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskDeleteFavourite;
 
 import java.util.List;
 
@@ -14,10 +17,11 @@ public interface MovieDataSource {
     }
 
     interface LocalDataSource {
-        void addMovieToLocal(Movie movie) throws Exception;
-        void deleteMovieFromLocal(Movie movie) throws Exception;
-        List<Movie> getMoviesFromLocal() throws Exception;
-        boolean isFavouriteMovie(String movieId) throws Exception;
+        void addMovieToLocal(Movie movie, TaskAddFavourite.AddFavouriteCallback callback);
+        void deleteMovieFromLocal(Movie movie,
+                                  TaskDeleteFavourite.DeleteFavouriteCallback callback);
+        void getMoviesFromLocal(LoadMoviesCallback callback);
+        void checkFavouriteMovie(Movie movie, TaskCheckFavourite.Callback callback);
     }
 
     interface RemoteDataSource {

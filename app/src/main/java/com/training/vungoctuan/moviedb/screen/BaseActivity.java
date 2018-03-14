@@ -30,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public MovieRepository getMovieRepository() {
         return MovieRepository.getInstance(
             MovieRemoteDataSource.getInstance(),
-            MovieLocalDataSource.getInstance(this)
+            MovieLocalDataSource.getInstance()
         );
     }
 
