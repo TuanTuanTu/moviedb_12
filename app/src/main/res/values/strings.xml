@@ -5,21 +5,18 @@
     <string name="title_popular">Most Popular Movies</string>
     <string name="title_now_playing">Now Playing</string>
     <string name="text_detail_overview">Overview</string>
-    <string name="test_strong_string">Ever been frustrated finding information on outdated
-        one-off blog posts and tutorials that have long since become irrelevant? How many times
-        have you been googling to find your answer only exists on an obscure 2 year old StackOverflow post? We believe theres got to be a better way. Why not have the community work together to create useful and detailed documentation for every aspect of Android (or any platform)? Theres absolutely no reason that we should have to make do with vague and outdated content anymore.Read about our mission to change the way engineers learn new technologies and check out how you can get involved! In addition, we are at present a fledgling startup so if you like this guide and what we are trying to do, please consider following us on twitter @codepath!</string>
     <string name="action_view_more">More</string>
-    <string name="text_detail_producer">Producers</string>
-    <string name="text_detail_actor">Actors</string>
-    <string name="text_detail_genres">Genres</string>
     <string name="action_trailer">Trailer</string>
     <string name="title_upcoming">Upcoming</string>
     <string name="title_top_rate">Top Rate</string>
     <string name="title_genres">Genres</string>
     <string name="detail_activity_release">Release Date: %s</string>
     <string name="title_production">Production</string>
+    <string name="title_production_failed">Production (Load data failed)</string>
     <string name="title_cast">Casts</string>
+    <string name="title_cast_failed">Casts (Load data failed)</string>
     <string name="title_crew">Crews</string>
+    <string name="title_crew_failed">Crews (Load data failed)</string>
     <string name="title_less">Less</string>
     <string name="title_more">More</string>
     <string name="title_loading">Loading…</string>
@@ -32,5 +29,7 @@
     <string name="detail_delete_movie_failed">Remove Favourite Failed</string>
     <string name="detail_add_favourite_failed">Add Favourite Failed</string>
     <string name="detail_add_favourite_success">Add %s To Favourite Success</string>
+    <string name="home_load_genres_failed">Genres Data Not Available!</string>
+    <string name="home_check_network">Please check network connection.</string>
 
 </resources>

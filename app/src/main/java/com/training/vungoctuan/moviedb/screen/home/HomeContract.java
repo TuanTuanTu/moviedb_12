@@ -1,8 +1,5 @@
 package com.training.vungoctuan.moviedb.screen.home;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
 import com.training.vungoctuan.moviedb.screen.BasePresenter;
@@ -32,5 +29,6 @@ public class HomeContract {
         void loadUpcomingMovies();
         void loadTopRateMovies();
         void loadGenresMovies();
+        void loadAfterNetworkChange();
     }
 }

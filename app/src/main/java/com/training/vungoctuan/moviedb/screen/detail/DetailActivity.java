@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.training.vungoctuan.moviedb.screen.movies.MoviesByProductionActivity;
 import com.training.vungoctuan.moviedb.screen.youtube.YoutubeActivity;
 import com.training.vungoctuan.moviedb.util.Constant;
 import com.training.vungoctuan.moviedb.util.ImageUtils;
+import com.training.vungoctuan.moviedb.util.NetworkReceiver;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private DetailContract.Presenter mPresenter;
     private Button mButtonExpand, mButtonPlayTrailer;
     private Button mButtonFavourite;
-    private TextView mTextDetailOverview;
+    private TextView mTextDetailOverview, mTextProduction, mTextCast, mTextCrew;
     private ProgressBar mProgressBarProduction, mProgressBarCast, mProgressBarCrew;
     private boolean mExpanded;
     private ProductionAdapter mProductionAdapter;
@@ -71,6 +73,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         initLayoutCrews();
         loadDataFromApi();
         mPresenter.checkMovieFavouriteExisting(mMovie.getId());
+        initNetworkBroadcast();
     }
 
     private void loadDataFromApi() {
@@ -128,8 +131,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private void initLayoutProductions() {
         View include = findViewById(R.id.include_production);
         mProgressBarProduction = include.findViewById(R.id.progressbar_recycler);
-        TextView textView = include.findViewById(R.id.text_recycler_title);
-        textView.setText(R.string.title_production);
+        mTextProduction = include.findViewById(R.id.text_recycler_title);
+        mTextProduction.setText(R.string.title_production);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mProductionAdapter);
     }
@@ -137,8 +140,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private void initLayoutCasts() {
         View include = findViewById(R.id.include_cast);
         mProgressBarCast = include.findViewById(R.id.progressbar_recycler);
-        TextView textView = include.findViewById(R.id.text_recycler_title);
-        textView.setText(R.string.title_cast);
+        mTextCast = include.findViewById(R.id.text_recycler_title);
+        mTextCast.setText(R.string.title_cast);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mCastAdapter);
     }
@@ -146,8 +149,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     private void initLayoutCrews() {
         View include = findViewById(R.id.include_crew);
         mProgressBarCrew = include.findViewById(R.id.progressbar_recycler);
-        TextView textView = include.findViewById(R.id.text_recycler_title);
-        textView.setText(R.string.title_crew);
+        mTextCrew = include.findViewById(R.id.text_recycler_title);
+        mTextCrew.setText(R.string.title_crew);
         RecyclerView recyclerView = include.findViewById(R.id.recycler_movies);
         recyclerView.setAdapter(mCrewAdapter);
     }
@@ -237,12 +240,15 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
     public void onLoadProductionSuccess(List<Production> productions) {
         mProgressBarProduction.setVisibility(View.GONE);
         mProductionAdapter.updateData(productions);
+        mTextProduction.setText(R.string.title_popular);
     }
 
     @Override
     public void onLoadCreditSuccess(Credit credit) {
         mProgressBarCrew.setVisibility(View.GONE);
         mProgressBarCast.setVisibility(View.GONE);
+        mTextCast.setText(R.string.title_cast);
+        mTextCrew.setText(R.string.title_crew);
         mCastAdapter.updateData(credit.getCasts());
         mCrewAdapter.updateData(credit.getCrews());
     }
@@ -253,16 +259,35 @@ public class DetailActivity extends BaseActivity implements DetailContract.View,
         mButtonPlayTrailer.setVisibility(View.VISIBLE);
     }
 
+    private void initNetworkBroadcast() {
+        initNetworkBroadcastReceiver(new NetworkReceiver.NetworkStateCallback() {
+            @Override
+            public void onNetworkConnected() {
+                mPresenter.loadAfterNetworkChange(mMovie.getId());
+            }
+
+            @Override
+            public void onNetworkDisconnected() {
+                Snackbar.make(findViewById(R.id.detail_parent), R.string.home_check_network,
+                    Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
     @Override
     public void onLoadProductionFailed() {
+        mTextProduction.setText(R.string.title_production_failed);
     }
 
     @Override
     public void onLoadCreditFailed() {
+        mTextCrew.setText(R.string.title_crew_failed);
+        mTextCast.setText(R.string.title_cast_failed);
     }
 
     @Override
     public void onLoadTrailerFailed() {
+        mButtonPlayTrailer.setVisibility(View.GONE);
     }
 
     @Override

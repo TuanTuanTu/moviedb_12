@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.training.vungoctuan.moviedb.R;
 import com.training.vungoctuan.moviedb.data.model.Genre;
@@ -22,6 +23,7 @@ import com.training.vungoctuan.moviedb.screen.movies.MoviesByFavourite;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesByGenreActivity;
 import com.training.vungoctuan.moviedb.screen.movies.MoviesBySearchActivity;
 import com.training.vungoctuan.moviedb.util.EndlessRecyclerOnScrollListener;
+import com.training.vungoctuan.moviedb.util.NetworkReceiver;
 
 import java.util.List;
 
@@ -57,6 +59,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         initLayoutGenres();
         initToolbar();
         loadMovies();
+        initNetworkBroadcast();
     }
 
     private void initMoviesAdapters() {
@@ -203,6 +206,21 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         mProgressBarGenres.setVisibility(View.VISIBLE);
     }
 
+    private void initNetworkBroadcast() {
+        initNetworkBroadcastReceiver(new NetworkReceiver.NetworkStateCallback() {
+            @Override
+            public void onNetworkConnected() {
+                mPresenter.loadAfterNetworkChange();
+            }
+
+            @Override
+            public void onNetworkDisconnected() {
+                Snackbar.make(findViewById(R.id.home_parent), R.string.home_check_network,
+                    Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
     @Override
     public void onGetPopularMoviesSuccess(List<Movie> movies) {
         mPopularOnScrollListener.setLoadingStatus(false);
@@ -239,21 +257,26 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void onGetPopularMoviesFailed() {
+        mPopularOnScrollListener.setLoadingStatus(false);
     }
 
     @Override
     public void onGetNowPlayingMoviesFailed() {
+        mNowPlayingOnScrollListener.setLoadingStatus(false);
     }
 
     @Override
     public void onGetUpcomingMoviesFailed() {
+        mUpcomingOnScrollListener.setLoadingStatus(false);
     }
 
     @Override
     public void onGetTopRateMoviesFailed() {
+        mTopRateOnScrollListener.setLoadingStatus(false);
     }
 
     @Override
     public void onGetGenresMoviesFailed() {
+        Toast.makeText(this, R.string.home_load_genres_failed, Toast.LENGTH_SHORT).show();
     }
 }

@@ -33,5 +33,6 @@ public interface DetailContract {
         void addMovieToFavourite(Movie movie);
         void deleteMovieFromFavourite(Movie movie);
         boolean checkMovieFavouriteExisting(String movieId);
+        void loadAfterNetworkChange(String movieId);
     }
 }
