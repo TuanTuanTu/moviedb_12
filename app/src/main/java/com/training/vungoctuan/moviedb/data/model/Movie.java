@@ -3,16 +3,34 @@ package com.training.vungoctuan.moviedb.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.training.vungoctuan.moviedb.util.Constant;
+
 /**
  * Created by vungoctuan on 2/28/18.
  */
 public class Movie implements Parcelable {
-    private String mId;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_ID)
+    @Expose
+    private int mId;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_TITLE)
+    @Expose
     private String mTitle;
-    private String mVoteAverage;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_VOTE_AVERAGE)
+    @Expose
+    private float mVoteAverage;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_POSTER_PATH)
+    @Expose
     private String mPosterPath;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_BACKDROP_PATH)
+    @Expose
     private String mBackdropPath;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_OVERVIEW)
+    @Expose
     private String mOverview;
+    @SerializedName(Constant.ApiResultKey.API_MOVIE_KEY_RELEASE_DATE)
+    @Expose
     private String mReleaseDate;
     private boolean mIsFavourite;
 
@@ -20,9 +38,9 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
-        mId = in.readString();
+        mId = in.readInt();
         mTitle = in.readString();
-        mVoteAverage = in.readString();
+        mVoteAverage = in.readFloat();
         mPosterPath = in.readString();
         mBackdropPath = in.readString();
         mOverview = in.readString();
@@ -42,11 +60,11 @@ public class Movie implements Parcelable {
         }
     };
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         mId = id;
     }
 
@@ -58,11 +76,11 @@ public class Movie implements Parcelable {
         mTitle = title;
     }
 
-    public String getVoteAverage() {
+    public float getVoteAverage() {
         return mVoteAverage;
     }
 
-    public void setVoteAverage(String voteAverage) {
+    public void setVoteAverage(float voteAverage) {
         mVoteAverage = voteAverage;
     }
 
@@ -113,9 +131,9 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mId);
+        parcel.writeInt(mId);
         parcel.writeString(mTitle);
-        parcel.writeString(mVoteAverage);
+        parcel.writeFloat(mVoteAverage);
         parcel.writeString(mPosterPath);
         parcel.writeString(mBackdropPath);
         parcel.writeString(mOverview);

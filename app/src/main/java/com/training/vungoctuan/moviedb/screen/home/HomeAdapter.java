@@ -76,7 +76,7 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<HomeAdapter.ItemViewHol
             if (movie == null) return;
             mMovie = movie;
             mTextName.setText(movie.getTitle());
-            mTextRate.setText(movie.getVoteAverage());
+            mTextRate.setText(String.valueOf(movie.getVoteAverage()));
             Glide.with(itemView.getContext())
                 .load(String.format(Constant.ApiRequestUrl.API_IMAGE_URL, movie.getPosterPath()))
                 .into(mImageMovie);

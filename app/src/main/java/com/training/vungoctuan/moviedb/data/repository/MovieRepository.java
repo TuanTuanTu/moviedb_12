@@ -1,11 +1,15 @@
 package com.training.vungoctuan.moviedb.data.repository;
 
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.model.api.MovieResults;
 import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
 import com.training.vungoctuan.moviedb.data.source.local.MovieLocalDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.MovieRemoteDataSource;
+import com.training.vungoctuan.moviedb.util.localtask.TaskAddFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskCheckFavourite;
+import com.training.vungoctuan.moviedb.util.localtask.TaskDeleteFavourite;
 
-import java.util.List;
+import io.reactivex.Observable;
 
 /**
  * Created by vungoctuan on 2/28/18.
@@ -31,14 +35,8 @@ public class MovieRepository implements MovieDataSource.RemoteDataSource,
     }
 
     @Override
-    public void getMoviesByCategories(String categories, String language,
-                                      int page,
-                                      MovieDataSource.LoadMoviesCallback callback) {
-        mMovieRemoteDataSource.getMoviesByCategories(
-            categories,
-            language,
-            page,
-            callback);
+    public Observable<MovieResults> getMoviesByCategories(String categories, int page) {
+        return mMovieRemoteDataSource.getMoviesByCategories(categories, page);
     }
 
     @Override
@@ -48,22 +46,23 @@ public class MovieRepository implements MovieDataSource.RemoteDataSource,
     }
 
     @Override
-    public void addMovieToLocal(Movie movie) throws Exception {
-        mMovieLocalDataSource.addMovieToLocal(movie);
+    public void addMovieToLocal(Movie movie, TaskAddFavourite.AddFavouriteCallback callback) {
+        mMovieLocalDataSource.addMovieToLocal(movie, callback);
     }
 
     @Override
-    public void deleteMovieFromLocal(Movie movie) throws Exception {
-        mMovieLocalDataSource.deleteMovieFromLocal(movie);
+    public void deleteMovieFromLocal(Movie movie, TaskDeleteFavourite.DeleteFavouriteCallback
+        callback) {
+        mMovieLocalDataSource.deleteMovieFromLocal(movie, callback);
     }
 
     @Override
-    public List<Movie> getMoviesFromLocal() {
-        return mMovieLocalDataSource.getMoviesFromLocal();
+    public void getMoviesFromLocal(MovieDataSource.LoadMoviesCallback callback) {
+        mMovieLocalDataSource.getMoviesFromLocal(callback);
     }
 
     @Override
-    public boolean isFavouriteMovie(String id) throws Exception {
-        return mMovieLocalDataSource.isFavouriteMovie(id);
+    public void checkFavouriteMovie(Movie movie, TaskCheckFavourite.Callback callback) {
+        mMovieLocalDataSource.checkFavouriteMovie(movie, callback);
     }
 }

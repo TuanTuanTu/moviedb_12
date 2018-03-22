@@ -40,6 +40,7 @@ public class Constant {
     public static final String BUNDLE_GENRE_ID = "BUNDLE_GENRE_ID";
     public static final String BUNDLE_GENRE_NAME = "BUNDLE_GENRE_NAME";
     private static final String API_KEY = "api_key=" + BuildConfig.API_KEY;
+    public static final String API_KEY_2 = "?api_key=" + BuildConfig.API_KEY;
     public static final String API_KEY_YOUTUBE = BuildConfig.API_YOUTUBE_KEY;
 
     @StringDef({API_URL_MOVIE_POPULAR, API_URL_MOVIE_NOW_PLAYING,
@@ -65,7 +66,7 @@ public class Constant {
     }
 
     public static class ApiRequestUrl {
-        private static final String API_URL = "https://api.themoviedb.org/3/";
+        public static final String API_URL = "https://api.themoviedb.org/3/";
         public static final String API_IMAGE_URL = "https://image.tmdb.org/t/p/w500/%s";
         public static final String API_URL_REQUEST = API_URL + "%s?"
             + API_KEY + "&language=%s&page=%s";
@@ -86,42 +87,47 @@ public class Constant {
             + API_URL_GENRES + API_KEY;
         public static final String API_MOVIES_BY_GENRE_REQUEST = API_URL
             + API_URL_MOVIES_BY_GENRE + API_KEY;
+        public static final String API_MOVIES_CATEGORY_URL =
+            "https://api.themoviedb.org/3/{movie_category}" +
+                "?api_key=" + BuildConfig.API_KEY + "&language=en-US";
     }
 
     public static class ApiParameter {
         public static final String API_URL_LANGUAGE = "en-US";
+        public static final String API_URL_MOVIE_CATEGORY = "movie_category";
+        public static final String API_URL_PAGE = "page";
     }
 
-    static class ApiResultKey {
-        static final String API_KEY_RESULTS = "results";
-        static final String API_MOVIE_KEY_ID = "id";
-        static final String API_MOVIE_KEY_TITLE = "title";
-        static final String API_MOVIE_KEY_VOTE_AVERAGE = "vote_average";
-        static final String API_MOVIE_KEY_POSTER_PATH = "poster_path";
-        static final String API_MOVIE_KEY_BACKDROP_PATH = "backdrop_path";
-        static final String API_MOVIE_KEY_OVERVIEW = "overview";
-        static final String API_MOVIE_KEY_RELEASE_DATE = "release_date";
-        static final String API_KEY_PRODUCTION_RESULTS = "production_companies";
-        static final String API_PRODUCTION_KEY_ID = "id";
-        static final String API_PRODUCTION_KEY_NAME = "name";
-        static final String API_KEY_CREDIT_CAST = "cast";
-        static final String API_KEY_CREDIT_CREW = "crew";
-        static final String API_CREDIT_KEY_ID = "id";
-        static final String API_CREDIT_KEY_CAST_ID = "cast_id";
-        static final String API_CAST_KEY_CHARACTER = "character";
-        static final String API_CAST_KEY_NAME = "name";
-        static final String API_CAST_KEY_PROFILE_PATH = "profile_path";
-        static final String API_CREW_CREDIT_ID = "credit_id";
-        static final String API_CREW_DEPARTMENT = "department";
-        static final String API_CREW_NAME = "name";
-        static final String API_CREW_JOB = "job";
-        static final String API_CREW_KEY_PROFILE_PATH = "profile_path";
-        static final String API_TRAILER_ID = "id";
-        static final String API_TRAILER_KEY = "key";
-        static final String API_TRAILER_NAME = "name";
-        static final String API_KEY_GENRES = "genres";
-        static final String API_KEY_GENRES_ID = "id";
-        static final String API_KEY_GENRES_NAME = "name";
+    public static class ApiResultKey {
+        public static final String API_KEY_RESULTS = "results";
+        public static final String API_MOVIE_KEY_ID = "id";
+        public static final String API_MOVIE_KEY_TITLE = "title";
+        public static final String API_MOVIE_KEY_VOTE_AVERAGE = "vote_average";
+        public static final String API_MOVIE_KEY_POSTER_PATH = "poster_path";
+        public static final String API_MOVIE_KEY_BACKDROP_PATH = "backdrop_path";
+        public static final String API_MOVIE_KEY_OVERVIEW = "overview";
+        public static final String API_MOVIE_KEY_RELEASE_DATE = "release_date";
+        public static final String API_KEY_PRODUCTION_RESULTS = "production_companies";
+        public static final String API_PRODUCTION_KEY_ID = "id";
+        public static final String API_PRODUCTION_KEY_NAME = "name";
+        public static final String API_KEY_CREDIT_CAST = "cast";
+        public static final String API_KEY_CREDIT_CREW = "crew";
+        public static final String API_CREDIT_KEY_ID = "id";
+        public static final String API_CREDIT_KEY_CAST_ID = "cast_id";
+        public static final String API_CAST_KEY_CHARACTER = "character";
+        public static final String API_CAST_KEY_NAME = "name";
+        public static final String API_CAST_KEY_PROFILE_PATH = "profile_path";
+        public static final String API_CREW_CREDIT_ID = "credit_id";
+        public static final String API_CREW_DEPARTMENT = "department";
+        public static final String API_CREW_NAME = "name";
+        public static final String API_CREW_JOB = "job";
+        public static final String API_CREW_KEY_PROFILE_PATH = "profile_path";
+        public static final String API_TRAILER_ID = "id";
+        public static final String API_TRAILER_KEY = "key";
+        public static final String API_TRAILER_NAME = "name";
+        public static final String API_KEY_GENRES = "genres";
+        public static final String API_KEY_GENRES_ID = "id";
+        public static final String API_KEY_GENRES_NAME = "name";
     }
 
     public static class MoviesDataBase {

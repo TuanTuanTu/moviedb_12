@@ -29,6 +29,6 @@ public class HomeContract {
         void loadUpcomingMovies();
         void loadTopRateMovies();
         void loadGenresMovies();
-        void loadAfterNetworkChange();
+        boolean loadAfterNetworkChange();
     }
 }

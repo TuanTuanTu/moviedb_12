@@ -48,7 +48,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        MoviesDatabaseHelper.getInstance(this);
+        MoviesDatabaseHelper.initialize(this);
         mPresenter = new HomePresenter(getMovieRepository());
         mPresenter.setView(this);
         initMoviesAdapters();
@@ -58,7 +58,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         initLayoutTopRate();
         initLayoutGenres();
         initToolbar();
-        loadMovies();
         initNetworkBroadcast();
     }
 
@@ -167,7 +166,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void initToolbar() {
-        View include = findViewById(R.id.toolbar);
+        View include = findViewById(R.id.toolbar_home);
         final SearchView searchView = include.findViewById(R.id.search_home);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -194,11 +193,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void loadMovies() {
-        mPresenter.loadPopularMovies();
-        mPresenter.loadNowPlayingMovies();
-        mPresenter.loadUpcomingMovies();
-        mPresenter.loadTopRateMovies();
-        mPresenter.loadGenresMovies();
         mProgressBarPopular.setVisibility(View.VISIBLE);
         mProgressBarNowPlaying.setVisibility(View.VISIBLE);
         mProgressBarTopRate.setVisibility(View.VISIBLE);
@@ -210,7 +204,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         initNetworkBroadcastReceiver(new NetworkReceiver.NetworkStateCallback() {
             @Override
             public void onNetworkConnected() {
-                mPresenter.loadAfterNetworkChange();
+                if (mPresenter.loadAfterNetworkChange()) {
+                    loadMovies();
+                }
             }
 
             @Override

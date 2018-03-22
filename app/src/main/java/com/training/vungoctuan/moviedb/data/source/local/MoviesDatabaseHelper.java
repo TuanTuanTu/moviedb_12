@@ -18,10 +18,14 @@ import java.util.List;
 public class MoviesDatabaseHelper extends SQLiteOpenHelper {
     private static MoviesDatabaseHelper sInstance;
 
-    public static MoviesDatabaseHelper getInstance(Context context) {
+    public static MoviesDatabaseHelper initialize(Context context) {
         if (sInstance == null) {
             sInstance = new MoviesDatabaseHelper(context);
         }
+        return sInstance;
+    }
+
+    public static MoviesDatabaseHelper getInstance() {
         return sInstance;
     }
 
@@ -58,11 +62,11 @@ public class MoviesDatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToNext()) {
                 do {
                     Movie movie = new Movie();
-                    movie.setId(cursor.getString(
+                    movie.setId(cursor.getInt(
                         cursor.getColumnIndex(MoviesDataBase.KEY_MOVIES_ID)));
                     movie.setTitle(cursor.getString(
                         cursor.getColumnIndex(MoviesDataBase.KEY_MOVIES_TITLE)));
-                    movie.setVoteAverage(cursor.getString(
+                    movie.setVoteAverage(cursor.getLong(
                         cursor.getColumnIndex(MoviesDataBase.KEY_MOVIES_VOTE_AVERAGE)));
                     movie.setPosterPath(cursor.getString(
                         cursor.getColumnIndex(MoviesDataBase.KEY_MOVIES_POSTER_PATH)));
@@ -109,7 +113,7 @@ public class MoviesDatabaseHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             String selection = MoviesDataBase.KEY_MOVIES_ID + MoviesDataBase.QUERY_SELECTION;
-            String[] selectionArgs = {movie.getId()};
+            String[] selectionArgs = {String.valueOf(movie.getId())};
             db.delete(
                 MoviesDataBase.TABLE_FAVOURITE_MOVIES,
                 selection,

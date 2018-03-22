@@ -2,14 +2,25 @@ package com.training.vungoctuan.moviedb.screen.home;
 
 import com.training.vungoctuan.moviedb.data.model.Genre;
 import com.training.vungoctuan.moviedb.data.model.Movie;
+import com.training.vungoctuan.moviedb.data.model.api.MovieResults;
 import com.training.vungoctuan.moviedb.data.repository.GenreRepository;
 import com.training.vungoctuan.moviedb.data.repository.MovieRepository;
 import com.training.vungoctuan.moviedb.data.source.GenreDataSource;
-import com.training.vungoctuan.moviedb.data.source.MovieDataSource;
 import com.training.vungoctuan.moviedb.data.source.remote.GenreRemoteDataSource;
 import com.training.vungoctuan.moviedb.util.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by vungoctuan on 2/28/18.
@@ -44,25 +55,38 @@ public class HomePresenter implements HomeContract.Presenter {
     public void onStop() {
     }
 
+    private List<Movie> movies = new ArrayList<>();
+
     @Override
     public void loadPopularMovies() {
         mIsPopularSuccess = false;
-        mMovieRepository.getMoviesByCategories(
+        Observable<MovieResults> movieObservable = mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_POPULAR,
-            Constant.ApiParameter.API_URL_LANGUAGE,
-            mPopularPage,
-            new MovieDataSource
-                .LoadMoviesCallback() {
+            mPopularPage
+        );
+        movieObservable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<MovieResults>() {
                 @Override
-                public void onMoviesLoaded(List<Movie> movies) {
-                    mPopularPage++;
-                    mIsPopularSuccess = true;
-                    mView.onGetPopularMoviesSuccess(movies);
+                public void onSubscribe(Disposable d) {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
+                public void onNext(MovieResults movieResults) {
+                    mView.onGetPopularMoviesSuccess(movieResults.getMovies());
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
                     mView.onGetPopularMoviesFailed();
+                }
+
+                @Override
+                public void onComplete() {
+                    mPopularPage++;
+                    mIsPopularSuccess = true;
                 }
             });
     }
@@ -70,21 +94,33 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadNowPlayingMovies() {
         mIsNowPlayingSuccess = false;
-        mMovieRepository.getMoviesByCategories(
+        Observable<MovieResults> movieObservable = mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_NOW_PLAYING,
-            Constant.ApiParameter.API_URL_LANGUAGE,
-            mNowPlayingPage,
-            new MovieDataSource.LoadMoviesCallback() {
+            mNowPlayingPage
+        );
+        movieObservable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<MovieResults>() {
                 @Override
-                public void onMoviesLoaded(List<Movie> movies) {
-                    mNowPlayingPage++;
-                    mIsNowPlayingSuccess = true;
-                    mView.onGetNowPlayingMoviesSuccess(movies);
+                public void onSubscribe(Disposable d) {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
+                public void onNext(MovieResults movieResults) {
+                    mNowPlayingPage++;
+                    mIsNowPlayingSuccess = true;
+                    mView.onGetNowPlayingMoviesSuccess(movieResults.getMovies());
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
                     mView.onGetNowPlayingMoviesFailed();
+                }
+
+                @Override
+                public void onComplete() {
                 }
             });
     }
@@ -92,21 +128,33 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadUpcomingMovies() {
         mIsUpcomingSuccess = false;
-        mMovieRepository.getMoviesByCategories(
+        Observable<MovieResults> movieObservable = mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_UPCOMING,
-            Constant.ApiParameter.API_URL_LANGUAGE,
-            mUpcomingPage,
-            new MovieDataSource.LoadMoviesCallback() {
+            mUpcomingPage
+        );
+        movieObservable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<MovieResults>() {
                 @Override
-                public void onMoviesLoaded(List<Movie> movies) {
-                    mUpcomingPage++;
-                    mIsUpcomingSuccess = true;
-                    mView.onGetUpcomingMoviesSuccess(movies);
+                public void onSubscribe(Disposable d) {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
+                public void onNext(MovieResults movieResults) {
+                    mUpcomingPage++;
+                    mIsUpcomingSuccess = true;
+                    mView.onGetUpcomingMoviesSuccess(movieResults.getMovies());
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
                     mView.onGetUpcomingMoviesFailed();
+                }
+
+                @Override
+                public void onComplete() {
                 }
             });
     }
@@ -114,21 +162,33 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void loadTopRateMovies() {
         mIsTopRateSuccess = false;
-        mMovieRepository.getMoviesByCategories(
+        Observable<MovieResults> movieObservable = mMovieRepository.getMoviesByCategories(
             Constant.ApiUrlDef.API_URL_MOVIE_TOP_RATED,
-            Constant.ApiParameter.API_URL_LANGUAGE,
-            mTopRatePage,
-            new MovieDataSource.LoadMoviesCallback() {
+            mTopRatePage
+        );
+        movieObservable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<MovieResults>() {
                 @Override
-                public void onMoviesLoaded(List<Movie> movies) {
-                    mTopRatePage++;
-                    mIsTopRateSuccess = true;
-                    mView.onGetTopRateMoviesSuccess(movies);
+                public void onSubscribe(Disposable d) {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
+                public void onNext(MovieResults movieResults) {
+                    mTopRatePage++;
+                    mIsTopRateSuccess = true;
+                    mView.onGetTopRateMoviesSuccess(movieResults.getMovies());
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
                     mView.onGetTopRateMoviesFailed();
+                }
+
+                @Override
+                public void onComplete() {
                 }
             });
     }
@@ -152,21 +212,76 @@ public class HomePresenter implements HomeContract.Presenter {
 
     //Checking if network available after reconnect, keep reload data
     @Override
-    public void loadAfterNetworkChange() {
+    public boolean loadAfterNetworkChange() {
+        boolean isLoad = false;
         if (!mIsPopularSuccess) {
             loadPopularMovies();
+            isLoad = true;
         }
         if (!mIsNowPlayingSuccess) {
             loadNowPlayingMovies();
+            isLoad = true;
         }
         if (!mIsTopRateSuccess) {
             loadTopRateMovies();
+            isLoad = true;
         }
         if (!mIsUpcomingSuccess) {
             loadUpcomingMovies();
+            isLoad = true;
         }
         if (!mIsGenresSuccess) {
             loadGenresMovies();
+            isLoad = true;
         }
+        return isLoad;
+    }
+
+    private void filterMovieByRate(){
+        Observable<MovieResults> movieObservable = mMovieRepository.getMoviesByCategories(
+            Constant.ApiUrlDef.API_URL_MOVIE_NOW_PLAYING,
+            mNowPlayingPage
+        );
+        movieObservable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .flatMap(new Function<MovieResults, ObservableSource<List<Movie>>>
+                () {
+                @Override
+                public ObservableSource<List<Movie>> apply(MovieResults movieResults)
+                    throws Exception {
+                    return Observable.just(movieResults.getMovies());
+                }
+            })
+            .flatMap(new Function<List<Movie>, ObservableSource<Movie>>() {
+                @Override
+                public ObservableSource<Movie> apply(List<Movie> movies) throws Exception {
+                    return Observable.fromIterable(movies);
+                }
+            })
+            .filter(new Predicate<Movie>() {
+                @Override
+                public boolean test(Movie movie) throws Exception {
+                    return movie.getVoteAverage() > 7;
+                }
+            })
+            .toList()
+            .subscribe(new SingleObserver<List<Movie>>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                }
+
+                @Override
+                public void onSuccess(List<Movie> movies) {
+                    mPopularPage++;
+                    mIsPopularSuccess = true;
+                    mView.onGetPopularMoviesSuccess(movies);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    mView.onGetPopularMoviesFailed();
+                }
+            });
     }
 }
